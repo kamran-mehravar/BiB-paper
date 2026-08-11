@@ -1,0 +1,43 @@
+Review Report Form
+Quality of English Language
+( ) The English could be improved to more clearly express the research.
+(x) The English is fine and does not require any improvement.
+Yes	Can be improved	Must be improved	Not applicable
+Does the introduction provide sufficient background and include all relevant references?
+( )	( )	(x)	( )
+Is the research design appropriate?
+( )	( )	(x)	( )
+Are the methods adequately described?
+( )	( )	(x)	( )
+Are the results clearly presented?
+( )	( )	(x)	( )
+Are the conclusions supported by the results?
+( )	( )	(x)	( )
+Are all figures and tables clear and well-presented?
+( )	( )	(x)	( )
+Comments and Suggestions for Authors
+This manuscript reports an experimental study on the effects of palletisation and temperature on Bag-in-Box (BiB) wine packaging under simulated export transport conditions, employing MEMS sensors for in-situ pressure/temperature monitoring—a topic with clear practical value and some technical novelty. However, the fact that the main trial failed to reach the intended 50°C target temperature is a substantive flaw that fundamentally altered the hypothesis-testing framework originally set out for the study. Major revision is recommended.
+
+Line 22–24: The abstract states that the main trial was set at 50°C but the wine "actually reached 26–34°C." The abstract should be condensed and restructured.
+
+Line 104–112: The authors acknowledge that the 50°C chamber failed to reach its set point under a full pallet load. The authors should provide specific information on the chamber model, air circulation fan power, chamber volume relative to pallet occupancy, and similar details.
+
+Line 122–133: Only three independent stacks (n=3) were used per temperature condition, with one bottom sensor's data missing (n=2). Conducting a two-way ANOVA with such a small sample size yields very limited statistical power.
+
+Line 191–202: The verification trial used only a single stack (3 boxes), with one of four sensors failing on day 4, leaving three sensors to complete the record. Yet in the conclusions (Line 436–438), the authors use this verification trial to "confirm" that pressure response is governed primarily by mechanical load rather than temperature—despite the verification trial's sample size being too small (n=1 stack) to "resolve the effect of position" (Line 464–465).
+
+Line 149–150: Chemical analyses were conducted only on wine from the main trial and were not resolved by stack position ("not resolved by stack position"). This means that the pressure data (where position effects were significant) and the chemical data (where only temperature effects were significant) cannot be genuinely linked causally or positionally. Nevertheless, the title and conclusions of the paper (e.g., Line 356–360, 517–518) present "palletisation governs physical behaviour, temperature governs chemical stability" as a core conclusion—this binary attribution appears somewhat overreaching.
+
+Line 255–266: The authors attribute the rise in lactic acid (0.16→0.29 g/L) to "heat-driven chemical change" rather than malolactic fermentation, reasoning that malic acid did not decrease significantly. However, this argument itself depends on the sensitivity of the malic acid detection method, and residual microbial activity has not been ruled out (no microbiological data, such as viable cell counts, are provided).
+
+Line 400–402 (Table 2): While both the table caption and the main text repeatedly emphasize that "19°C" and "50°C" refer only to the chamber set points rather than actual temperatures, the table headers themselves still directly label the samples as "Wine at 19°C" and "Wine at 50°C," which is prone to misleading readers.
+
+Line 300–316: The first five hours of data were excluded on the grounds that they were "confounded by transport and stacking disturbances." However, this window coincides precisely with the real temperature/pressure disturbances the product would experience during transport from the filling line to the laboratory. If this is also representative of an actual export scenario (e.g., short-haul transport from factory to port), excluding this data may underestimate the true peak pressure experienced across the full export process. A discussion of the potential impact of this data-handling choice on the generalisability of the conclusions is recommended.
+
+Line 113–116: The grape variety and vintage of the commercial white wine used are unknown.
+
+
+Submission Date
+23 July 2026
+Date of this review
+10 Aug 2026 05:30:12
