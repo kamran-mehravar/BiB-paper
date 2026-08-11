@@ -51,7 +51,7 @@ See `Manuscripts/FIGURE_INSERTION_GUIDE.md` for exact placement and final captio
 
 ## Package Notes
 
-- The highlighted and clean manuscripts were copied from the validated final DOCX files at repository root.
+- The highlighted and clean manuscripts were copied from the validated final DOCX source files.
 - Figures 3-7 in the package are the `_FINAL.png` versions only.
 - Programmatic inspection found that the current package manuscripts already embed byte-identical `_FINAL.png` images for Figures 3-7.
 - Manual figure replacement is not required unless Word displays a problem or you choose to reinsert figures manually.

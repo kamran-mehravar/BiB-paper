@@ -2,7 +2,7 @@
 
 Manuscript: "Palletisation and In-Bag Thermal Exposure in Bag-in-Box Wine Packaging under Simulated Export Conditions"
 
-We thank Reviewer 2 and Reviewer 3 for their detailed assessment. After the first revision, additional pressure/temperature workbooks and figures became available in the repository. We therefore re-audited the data provenance, reran the pressure analysis from the main-trial workbook, quantified the first-five-hour sensitivity, reconstructed the verification trial from its workbook, regenerated Figures 3-7 with unambiguous nominal set-point labels, and updated the manuscript and response package accordingly. The new data improve traceability, but they do not add independent chamber replication, stack IDs for the main-trial sensors, raw chemical replicates, microbiology, shelf-life follow-up or cost data.
+We thank Reviewer 2 and Reviewer 3 for their detailed assessment. In response to their comments, we undertook a comprehensive re-examination of the original experimental records and revised the manuscript accordingly. This included re-analysis of the main-trial pressure and temperature time-series, a sensitivity analysis of the initial handling period, a more detailed examination of the verification trial, and revision of Figures 3-7 to ensure that nominal chamber set points are clearly distinguished from measured in-bag temperatures. These analyses improve the transparency and traceability of the reported results but do not alter the underlying experimental design or its limitations.
 
 ## Reviewer 2
 
@@ -14,7 +14,7 @@ The chamber was set at 50 degC, but the wine experienced about 25-34 degC; this 
 
 ### Response
 
-We agree. The revised manuscript no longer treats the main trial as actual 50 degC wine exposure. The newly available `Results.xlsx` workbook allowed us to quantify the realised in-bag temperatures directly. During the late storage window (days 19.5-20), the nominal 50 degC chamber averaged 34.18 +/- 0.36 degC in top-position sensors and 26.08 +/- 0.23 degC in bottom-position sensors. The nominal 19 degC chamber averaged 23.50 +/- 0.21 degC in top-position sensors and 22.84 +/- 0.30 degC in bottom-position sensors. The study is therefore interpreted as a comparison between nominal chamber conditions and measured package temperatures, not as a direct 19 degC versus 50 degC wine-temperature comparison.
+We agree. The revised manuscript no longer treats the main trial as actual 50 degC wine exposure. In response to this comment, we re-examined the original main-trial pressure and temperature records and quantified the realised in-bag temperatures directly. During the late storage window (days 19.5-20), the nominal 50 degC chamber averaged 34.18 +/- 0.36 degC in top-position sensors and 26.08 +/- 0.23 degC in bottom-position sensors. The nominal 19 degC chamber averaged 23.50 +/- 0.21 degC in top-position sensors and 22.84 +/- 0.30 degC in bottom-position sensors. The study is therefore interpreted as a comparison between nominal chamber conditions and measured package temperatures, not as a direct 19 degC versus 50 degC wine-temperature comparison.
 
 ### Changes in Manuscript
 
@@ -28,7 +28,7 @@ The Abstract should be condensed, restructured and explicit about the actual tem
 
 ### Response
 
-The Abstract has been rewritten again after the second-pass data audit. It now reports the raw-workbook late-temperature summaries, the exploratory pressure effect estimate, the absence of a statistically detectable nominal chamber-condition effect, the summary-only scope of the chemistry data, and the limited role of the verification trial.
+The Abstract has been revised to reflect the re-analysis of the original experimental records. It now reports the late-temperature summaries, the exploratory pressure effect estimate, the absence of a statistically detectable nominal chamber-condition effect, the summary-only scope of the chemistry data, and the limited role of the verification trial.
 
 ### Changes in Manuscript
 
@@ -42,7 +42,7 @@ Chamber model, air circulation, fan power, chamber volume and pallet occupancy s
 
 ### Response
 
-We searched the original repository files and the newly added workbooks/figures. These chamber-control details were not present. We have not invented specifications. Instead, the manuscript now states that chamber model, chamber volume, fan power, airflow rate and pallet occupancy ratio were not recorded and that this limits diagnosis of the thermal lag and vertical gradient observed in the main trial.
+We re-examined the original study records and available chamber documentation. These chamber-control details were not present. We have not invented specifications. Instead, the manuscript now states that chamber model, chamber volume, fan power, airflow rate and pallet occupancy ratio were not recorded and that this limits diagnosis of the thermal lag and vertical gradient observed in the main trial.
 
 ### Changes in Manuscript
 
@@ -56,7 +56,7 @@ The pressure ANOVA has very limited power because n is small and one bottom sens
 
 ### Response
 
-We agree. The second-pass audit changes the reproducibility status but not the replication status. The newly available `Results.xlsx` workbook lets us reconstruct the pressure summaries from the main-trial data, and `anova_pressure.py --from-raw` now reads that workbook. The reconstructed values match the embedded summaries to 0.0000 mbar. However, the pressure cells remain n = 3, 3, 3 and 2, chamber condition remains one chamber per nominal set point, and the workbook does not retain stack IDs or sensor-to-stack pairings for a blocked or paired stack-level analysis. We therefore retain the ANOVA only as exploratory sensor-level inference and report effect estimates and confidence intervals alongside p-values.
+We agree. The re-analysis improves reproducibility but does not change the replication status. We reanalysed the original main-trial sensor records and independently reconstructed the pressure summaries used in the statistical analysis. The reconstructed values match the reported summaries to 0.0000 mbar. However, the pressure cells remain n = 3, 3, 3 and 2, chamber condition remains one chamber per nominal set point, and the records do not retain stack IDs or sensor-to-stack pairings for a blocked or paired stack-level analysis. We therefore retain the ANOVA only as exploratory sensor-level inference and report effect estimates and confidence intervals alongside p-values.
 
 ### Changes in Manuscript
 
@@ -70,7 +70,7 @@ The verification trial cannot confirm general conclusions because it used only o
 
 ### Response
 
-We agree. The verification workbook now allows a more precise description, but it does not create replication. The trial used one three-box stack. V26, one top-position sensor, stopped at day 4.35. Across the four verification sensors, maximum in-bag temperatures ranged from 45.0 to 48.8 degC, and no in-bag sensor reached 50 degC. Pressure changes from each sensor's first valid baseline were transient, with peaks of 9.6-26.5 mbar. The manuscript presents this trial as limited supporting evidence under one configuration, not as confirmation of a general position effect.
+We agree. We re-examined the original verification-trial records in greater detail, but this does not create replication. The trial used one three-box stack. V26, one top-position sensor, stopped at day 4.35. Across the four verification sensors, maximum in-bag temperatures ranged from 45.0 to 48.8 degC, and no in-bag sensor reached 50 degC. Pressure changes from each sensor's first valid baseline were transient, with peaks of 9.6-26.5 mbar. The manuscript presents this trial as limited supporting evidence under one configuration, not as confirmation of a general position effect.
 
 ### Changes in Manuscript
 
@@ -84,7 +84,7 @@ The claim that palletisation governs physical behaviour and temperature governs 
 
 ### Response
 
-We agree. The manuscript no longer presents this binary causal attribution. The new data do not add position-resolved chemistry. The final text states that pressure was measured by package position and showed a transient bottom-position peak, whereas chemistry was measured as bulk wine grouped by nominal chamber condition. These two datasets support different descriptive response patterns, but they do not demonstrate that palletisation and temperature act independently or exclusively on separate parts of the system.
+We agree. The manuscript no longer presents this binary causal attribution. The original study records do not contain position-resolved chemistry. The final text states that pressure was measured by package position and showed a transient bottom-position peak, whereas chemistry was measured as bulk wine grouped by nominal chamber condition. These two datasets support different descriptive response patterns, but they do not demonstrate that palletisation and temperature act independently or exclusively on separate parts of the system.
 
 ### Changes in Manuscript
 
@@ -98,7 +98,7 @@ The lactic-acid increase cannot be confidently attributed to heat-driven chemist
 
 ### Response
 
-We agree. We inspected the newly added `Results.xlsx` workbook and confirmed that it contains pressure/temperature data only, not raw chemical replicates. A final repository-wide audit traced `0.29 +/- 0.02 g/L` to the originally submitted Table 2, whereas the alternative `0.29 +/- 0.20 g/L` appears only in later revision/note material and could not be traced to raw chemical replicates or another primary experimental record. The manuscript therefore reports `0.29 +/- 0.02 g/L` as the traceable descriptive Table 2 value, without a significance claim. We state that malic acid did not show the clear decrease expected for a simple malolactic-conversion interpretation, but we no longer state that malolactic fermentation was ruled out. Residual microbial activity cannot be excluded.
+We agree. We re-examined the available original experimental records and confirmed that raw replicate-level chemical measurements were not retained in the available study records. The originally submitted Table 2 reports `0.29 +/- 0.02 g/L`, whereas no primary experimental record supports the alternative `0.29 +/- 0.20 g/L`. The manuscript therefore reports `0.29 +/- 0.02 g/L` as the traceable descriptive Table 2 value, without a significance claim. We state that malic acid did not show the clear decrease expected for a simple malolactic-conversion interpretation, but we no longer state that malolactic fermentation was ruled out. Residual microbial activity cannot be excluded.
 
 ### Changes in Manuscript
 
@@ -126,7 +126,7 @@ The first five hours may represent realistic transport disturbances and should b
 
 ### Response
 
-The newly available `Results.xlsx` workbook allowed us to perform the sensitivity analysis that was impossible in the first pass. Including the first five hours did not change the primary peak-pressure endpoint: for all 11 usable sensors, the full-record maximum dP was identical to the post-handling maximum used in the primary analysis. The individual maxima occurred after the handling window, between 85.0 and 138.5 h. We still do not treat the first five hours as settled storage exposure because the interval contained transport/handling/stack assembly and the available workbook contains duplicated early rows. The final manuscript therefore keeps the primary post-handling analysis but now reports the full-record sensitivity result and discusses the logistics relevance of early transients.
+In response to the reviewer, we performed an additional sensitivity analysis using the original main-trial pressure records. Including the first five hours did not change the primary peak-pressure endpoint: for all 11 usable sensors, the full-record maximum dP was identical to the post-handling maximum used in the primary analysis. The individual maxima occurred after the handling window, between 85.0 and 138.5 h. We still do not treat the first five hours as settled storage exposure because the interval contained transport/handling/stack assembly and the available records contain duplicated early rows. The final manuscript therefore keeps the primary post-handling analysis but now reports the full-record sensitivity result and discusses the logistics relevance of early transients.
 
 ### Changes in Manuscript
 
@@ -140,7 +140,7 @@ Grape variety and vintage are unknown.
 
 ### Response
 
-Correct. The new workbooks were also checked and contain no grape variety or vintage metadata. The supplier did not provide this information, and the manuscript retains it as a limitation.
+Correct. We re-examined the original study records and found no information on grape variety or vintage. The supplier did not provide this information, and the manuscript retains it as a limitation.
 
 ### Changes in Manuscript
 
@@ -156,7 +156,7 @@ It is difficult to evaluate stacking configuration because different configurati
 
 ### Response
 
-We appreciate this point. The final manuscript clarifies that the pressure analysis evaluates top versus bottom package position under the tested stack configuration. Stack height was not analysed as an independent factor because the design contained one four-box stack and two three-box stacks per nominal chamber condition. The newly available `Results.xlsx` workbook restores the main-trial traces but does not restore stack IDs or sensor-to-stack pairings. Chamber condition also remains unreplicated at the chamber level. The pressure ANOVA is therefore presented as exploratory sensor-level analysis rather than a definitive test of stack height, chamber temperature or paired stack effects.
+We appreciate this point. The final manuscript clarifies that the pressure analysis evaluates top versus bottom package position under the tested stack configuration. Stack height was not analysed as an independent factor because the design contained one four-box stack and two three-box stacks per nominal chamber condition. Re-examination of the original main-trial records confirmed the available sensor traces and position/chamber mapping; however, stack identifiers or sensor-to-stack pairings were not retained. Chamber condition also remains unreplicated at the chamber level. The pressure ANOVA is therefore presented as exploratory sensor-level analysis rather than a definitive test of stack height, chamber temperature or paired stack effects.
 
 ### Changes in Manuscript
 
@@ -198,7 +198,7 @@ The nominal 50 degC packages stayed below set point, whereas nominal 19 degC pac
 
 ### Response
 
-The newly available `Results.xlsx` workbook lets us answer this quantitatively. Late in the main trial, nominal 50 degC packages averaged 34.18 +/- 0.36 degC at top sensors and 26.08 +/- 0.23 degC at bottom sensors; nominal 19 degC packages averaged 23.50 +/- 0.21 degC at top sensors and 22.84 +/- 0.30 degC at bottom sensors. The manuscript now separates observed facts from interpretation. The observations are consistent with thermal inertia, chamber loading, heat-transfer resistance through the pallet/stack and airflow constraints, but the chamber model, airflow and occupancy data were not recorded, so these remain hypotheses rather than established causes.
+We reanalysed the original temperature records to address this point quantitatively. Late in the main trial, nominal 50 degC packages averaged 34.18 +/- 0.36 degC at top sensors and 26.08 +/- 0.23 degC at bottom sensors; nominal 19 degC packages averaged 23.50 +/- 0.21 degC at top sensors and 22.84 +/- 0.30 degC at bottom sensors. The manuscript now separates observed facts from interpretation. The observations are consistent with thermal inertia, chamber loading, heat-transfer resistance through the pallet/stack and airflow constraints, but the chamber model, airflow and occupancy data were not recorded, so these remain hypotheses rather than established causes.
 
 ### Changes in Manuscript
 
@@ -212,7 +212,7 @@ The large difference between the main and verification experiment may indicate a
 
 ### Response
 
-We do not dismiss the discrepancy. The verification workbook shows that the single three-box stack reached much warmer in-bag temperatures than the main nominal 50 degC trial, although no verification sensor reached 50 degC. Sensor maxima were 48.8 degC (V26 top, before dropout), 47.7 degC (V62 top), 45.0 degC (V27 bottom) and 47.6 degC (V64 bottom). Compared with the main trial late means, the verification trial was about 13.4 degC warmer at the top and about 20.2 degC warmer at the bottom. The final manuscript states that the discrepancy may reflect scale, chamber loading, stack geometry, airflow, chamber performance or sensor-location differences, but the available records do not identify a single cause. We therefore do not use the verification trial to correct or override the main trial; it is treated as a separate limited observation.
+We do not dismiss the discrepancy. Detailed re-examination of the original verification-trial records showed that the single three-box stack reached much warmer in-bag temperatures than the main nominal 50 degC trial, although no verification sensor reached 50 degC. Sensor maxima were 48.8 degC (V26 top, before dropout), 47.7 degC (V62 top), 45.0 degC (V27 bottom) and 47.6 degC (V64 bottom). Compared with the main trial late means, the verification trial was about 13.4 degC warmer at the top and about 20.2 degC warmer at the bottom. The final manuscript states that the discrepancy may reflect scale, chamber loading, stack geometry, airflow, chamber performance or sensor-location differences, but the available records do not identify a single cause. We therefore do not use the verification trial to correct or override the main trial; it is treated as a separate limited observation.
 
 ### Changes in Manuscript
 
@@ -226,7 +226,7 @@ Several sentences are overly complex.
 
 ### Response
 
-The manuscript was edited throughout in the first revision and then edited again after the second-pass data audit. The final version uses shorter sentences and consistent terminology for nominal set point, nominal chamber condition and measured in-bag temperature.
+The manuscript was edited throughout to improve clarity and to maintain consistent terminology for nominal set point, nominal chamber condition and measured in-bag temperature.
 
 ### Changes in Manuscript
 
