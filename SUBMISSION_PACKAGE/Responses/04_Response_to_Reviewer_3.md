@@ -1,8 +1,8 @@
 # Response to Reviewer 3
 
-**Manuscript:** "Palletisation and In-Bag Thermal Exposure in Bag-in-Box Wine Packaging under Simulated Export Conditions"
+**Manuscript:** "In-Bag Pressure and Temperature Monitoring of Palletised 3-L Bag-in-Box Wine under Static Chamber Conditions"
 
-We thank Reviewer 3 for the detailed and constructive assessment. In response to the reviewer comments, we undertook a comprehensive re-examination of the original experimental records and revised the manuscript accordingly. This included re-analysis of the main-trial pressure and temperature time-series, a sensitivity analysis of the initial handling period, a more detailed examination of the verification trial, and revision of Figures 3-7 to ensure that nominal chamber set points are clearly distinguished from measured in-bag temperatures. These analyses improve the transparency and traceability of the reported results but do not alter the underlying experimental design or its limitations.
+We thank Reviewer 3 for the detailed and constructive assessment. In response to the reviewer comments, we undertook a comprehensive re-examination of the original experimental records and revised the manuscript accordingly. This included re-analysis of the main-trial pressure and temperature time-series, an internal common-mode pressure diagnostic, a sensitivity analysis of the initial handling period, a descriptive-only presentation of Table 2 chemistry, a more detailed examination of the verification trial, and revision of Figures 3-7 to ensure that nominal chamber set points are clearly distinguished from measured in-bag temperatures. These analyses improve the transparency and traceability of the reported results but do not alter the underlying experimental design or its limitations.
 
 ## R3.1 Stacking configuration and interpretability
 
@@ -12,7 +12,7 @@ It is difficult to evaluate stacking configuration because different configurati
 
 ### Response
 
-We appreciate this point. The final manuscript clarifies that the pressure analysis evaluates top versus bottom package position under the tested stack configuration. Stack height was not analysed as an independent factor because the design contained one four-box stack and two three-box stacks per nominal chamber condition. Re-examination of the original main-trial records confirmed the available sensor traces and position/chamber mapping; however, stack identifiers or sensor-to-stack pairings were not retained. Chamber condition also remains unreplicated at the chamber level. The pressure ANOVA is therefore presented as exploratory sensor-level analysis rather than a definitive test of stack height, chamber temperature or paired stack effects.
+We appreciate this point. The final manuscript clarifies that the pressure analysis evaluates top versus bottom package position under the tested stack configuration. Stack height was not analysed as an independent factor because the design contained one four-box stack and two three-box stacks per nominal chamber condition. Re-examination of the original main-trial records confirmed the available sensor traces and position/chamber mapping; however, stack identifiers or sensor-to-stack pairings were not retained. Chamber condition also remains unreplicated at the chamber level, and no barometric reference was logged. The pressure ANOVA is therefore presented as exploratory sensor-level analysis rather than a definitive test of stack height, chamber temperature, package mechanics or paired stack effects.
 
 ### Changes in Manuscript
 
@@ -54,11 +54,11 @@ The nominal 50 degC packages stayed below set point, whereas nominal 19 degC pac
 
 ### Response
 
-We reanalysed the original temperature records to address this point quantitatively. Late in the main trial, nominal 50 degC packages averaged 34.18 +/- 0.36 degC at top sensors and 26.08 +/- 0.23 degC at bottom sensors; nominal 19 degC packages averaged 23.50 +/- 0.21 degC at top sensors and 22.84 +/- 0.30 degC at bottom sensors. The manuscript now separates observed facts from interpretation. The observations are consistent with thermal inertia, chamber loading, heat-transfer resistance through the pallet/stack and airflow constraints, but the chamber model, airflow and occupancy data were not recorded, so these remain hypotheses rather than established causes.
+We reanalysed the original temperature records to address this point quantitatively. Late in the main trial, nominal 50 degC packages averaged 34.18 +/- 0.36 degC at top sensors and 26.08 +/- 0.23 degC at bottom sensors; nominal 19 degC packages averaged 23.50 +/- 0.21 degC at top sensors and 22.84 +/- 0.30 degC at bottom sensors. The manuscript now separates observed facts from interpretation. By the end of storage, the main-trial temperatures were stable far below the nominal 50 degC set point, suggesting sustained under-delivery and/or stratification of the effective thermal environment rather than only a short transient lag. Because no chamber-air logger, chamber model, airflow or occupancy data were recorded, the chamber mechanism cannot be resolved.
 
 ### Changes in Manuscript
 
-Sections 3.2, 3.3, 3.4 and the captions to Figures 3 and 6 were revised with the quantified temperatures and cautious interpretation.
+Sections 3.2, 3.3, 3.4 and the captions to Figures 3 and 6 were revised with the quantified temperatures and the sustained-under-delivery/stratification limitation.
 
 ## R3.5 Main experiment versus verification experiment discrepancy
 

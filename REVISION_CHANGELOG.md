@@ -59,6 +59,19 @@ Major revision for Reviewer 2 and Reviewer 3, updated after second-pass integrat
 
 - Clarified that pressure dP was calculated from each sensor's initial valid pressure reading at time zero. Historical code used `t <= 0.02 d`, but the next workbook record is at `0.020833 d`, so the reproduced analysis already used the initial reading only and numerical pressure results did not change.
 
+## Go/No-Go Scientific Rescue Audit
+
+- Added `go_no_go_audit.py` and derived pressure diagnostics for common-mode pressure structure, leave-one-out robustness and verification thermal response.
+- Determined that main-trial absolute dates were not recoverable from `Results.xlsx`; therefore, an external barometric correction could not be performed without inventing trial dates.
+- Added internal common-mode pressure diagnostics. Leave-one-out correlations between each sensor and the mean of the remaining sensors averaged 0.9368, indicating that broad absolute pressure drift cannot be interpreted as package pressurisation/relaxation alone.
+- Retained the reproducible uncorrected peak dP ANOVA result, but added the common-mode residual sensitivity: the position term for each sensor's maximum common-mode residual was not statistically detectable (F(1,8) = 3.21; p = 0.111).
+- Added leave-one-out pressure robustness: the original uncorrected peak-position p-values ranged from 0.0007 to 0.0511, with one single-sensor deletion crossing p = 0.05.
+- Downgraded pressure interpretation in the Abstract, Results, Figure 5 caption, Limitations and Conclusions to an exploratory transient position-related offset superimposed on common-mode absolute-pressure variation.
+- Downgraded Table 2 chemistry to descriptive mean +/- SD only. Tukey letters, chemistry p-values and "significant" chemistry language were removed because independent treatment-level chemistry replication could not be verified.
+- Revised thermal interpretation to state that main-trial day-20 temperatures were stable far below the nominal 50 degC set point, suggesting sustained under-delivery and/or stratification rather than only a short transient lag.
+- Changed the title to "In-Bag Pressure and Temperature Monitoring of Palletised 3-L Bag-in-Box Wine under Static Chamber Conditions" to avoid implying a full transport simulation protocol.
+- Removed MDPI metadata/template boilerplate, fixed stray funding line-number artefacts and corrected the Data Availability Statement.
+
 ## Verification Trial
 
 - Replaced confirm/prove/establish language with limited-support wording.

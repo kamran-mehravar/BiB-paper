@@ -2,7 +2,7 @@
 
 This folder contains the final local files for manual journal resubmission of:
 
-**Palletisation and In-Bag Thermal Exposure in Bag-in-Box Wine Packaging under Simulated Export Conditions**
+**In-Bag Pressure and Temperature Monitoring of Palletised 3-L Bag-in-Box Wine under Static Chamber Conditions**
 
 The scientific manuscript is frozen. The files in this package are organized for manual review and upload in Microsoft Word and the journal submission portal.
 
@@ -63,9 +63,9 @@ See `Manuscripts/FIGURE_INSERTION_GUIDE.md` for exact placement and final captio
 - [ ] Confirm Figures 3-7 are the `_FINAL.png` versions.
 - [ ] Insert/replace Figures 3-7 manually if required.
 - [ ] Confirm captions remain attached to the correct figures.
-- [ ] Confirm Table 2 shows lactic acid `0.29 ? 0.02 g/L`.
-- [ ] Confirm manuscript never describes main-trial wine as exposed to 50 ?C.
-- [ ] Confirm verification trial says no in-bag sensor reached 50 ?C.
+- [ ] Confirm Table 2 shows lactic acid `0.29 ± 0.02 g/L`.
+- [ ] Confirm manuscript never describes main-trial wine as exposed to 50 °C.
+- [ ] Confirm verification trial says no in-bag sensor reached 50 °C.
 - [ ] Confirm Reviewer 2 response contains only Reviewer 2.
 - [ ] Confirm Reviewer 3 response contains only Reviewer 3.
 - [ ] Confirm clean manuscript has no yellow highlighting.

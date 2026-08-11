@@ -11,6 +11,7 @@ python -m compileall anova_pressure.py reanalyse_raw_data.py
 python anova_pressure.py
 python anova_pressure.py --from-raw
 python reanalyse_raw_data.py
+python go_no_go_audit.py
 ```
 
 All commands completed successfully in this audit. `statsmodels` was not installed, so `anova_pressure.py` used its explicit least-squares Type II calculations.
@@ -73,7 +74,28 @@ Day-20 dP:
 - Adjusted bottom-minus-top effect: +5.2 mbar, 95% CI -15.3 to +25.7 mbar.
 - Adjusted nominal 50-minus-19 effect: -8.0 mbar, 95% CI -28.5 to +12.5 mbar.
 
-Interpretation: bottom-position sensors showed a larger post-handling peak dP in this small sensor-level dataset. Lack of statistical significance for nominal chamber condition or day-20 factors must be read only as no statistically detectable difference under this design.
+Interpretation: bottom-position sensors showed a larger post-handling peak dP in this small sensor-level dataset before common-mode diagnostics. Lack of statistical significance for nominal chamber condition or day-20 factors must be read only as no statistically detectable difference under this design.
+
+### Barometric And Common-Mode Pressure Audit
+
+Source: `Results.xlsx`; derived files `pressure_common_mode_correlations.csv`, `pressure_common_mode_residual_summary.csv`, `pressure_common_mode_peak_anova.csv`, `pressure_residual_at_original_peak_anova.csv`, `pressure_leave_one_out.csv`, and `pressure_position_difference_trace.csv`.
+
+Absolute main-trial start and end dates were not recoverable from `Results.xlsx`, which contains relative time only. The verification workbook contains absolute timestamps for the verification trial beginning on 2024-12-16, but those dates cannot be assigned to the main trial because the sensor IDs differ. Therefore, an external barometric correction of the main-trial pressure ANOVA was not performed.
+
+Internal diagnostics showed strong common-mode pressure structure. Leave-one-out correlations between each sensor trace and the mean of the remaining sensors ranged from 0.8590 to 0.9727, with a mean of 0.9368. This indicates that the broad rise-and-fall pattern in absolute baseline-referred pressure should not be interpreted as package pressurisation and relaxation alone.
+
+Common-mode residual analyses:
+
+- Maximum common-mode residual per sensor after handling: position F(1,8) = 3.2069, p = 0.1111; adjusted bottom-minus-top difference +14.4 mbar, 95% CI -4.1 to +32.9 mbar.
+- Residual at each sensor's original uncorrected peak time: position F(1,8) = 9.0154, p = 0.0170.
+- Day-20 common-mode residual: same factor interpretation as the day-20 baseline-referred endpoint; no statistically detectable position effect.
+
+Leave-one-out audit of the original uncorrected peak endpoint:
+
+- Position p-values ranged from 0.0007 to 0.0511.
+- Removing V51 gave p = 0.0511, showing that the nominal p = 0.0165 result is not robust to every single-sensor deletion.
+
+Final interpretation used in the manuscript: the uncorrected peak dP result is retained because it is reproducible and transparent, but it is interpreted as an exploratory transient position-related offset superimposed on common-mode absolute-pressure variation. It is not presented as definitive evidence that the full pressure trace reflects package mechanics.
 
 ### First-Five-Hour Sensitivity
 
@@ -141,11 +163,22 @@ Main-vs-verification late thermal discrepancy:
 
 The difference is consistent with scale, chamber loading, airflow, geometry or chamber-performance differences, but the files do not identify a single cause.
 
+Simple thermal-response approximation for verification sensors:
+
+| Sensor | Position | Plateau estimate (degC) | Time to 90% plateau (d) | Time to 95% plateau (d) | Approx. tau from t90 (d) |
+|---|---|---:|---:|---:|---:|
+| V26 | Top | 48.67 | 2.17 | 2.77 | 0.94 |
+| V62 | Top | 47.62 | 2.87 | 3.42 | 1.25 |
+| V27 | Bottom | 44.97 | 4.27 | 5.08 | 1.85 |
+| V64 | Bottom | 47.54 | 3.73 | 4.73 | 1.62 |
+
+These estimates use the late day 14-15 mean as the plateau for complete sensors and the final 6 h before dropout for V26. They are descriptive approximations only. The main-trial nominal 50 degC temperatures were stable far below the set point by day 20, so the manuscript describes the main-trial thermal mismatch as sustained under-delivery and/or stratification of the effective thermal environment rather than only a short transient lag. The mechanism cannot be resolved because no chamber-air logger or chamber-control metadata were recorded.
+
 ## Analyses Based Only On Summary Data
 
 ### Chemistry
 
-Raw chemical replicate data remain absent. `Results.xlsx` contains no chemical sheet, hidden sheet, defined names or chemistry table. The chemical values therefore remain summary-only values from Table 2 / manuscript records.
+Raw chemical replicate data remain absent. `Results.xlsx` contains no chemical sheet, hidden sheet, defined names or chemistry table. The chemical values therefore remain summary-only values from Table 2 / manuscript records. The available records report triplicate determinations but do not establish whether these are independent package-level samples or analytical repeats.
 
 The repository contains an inconsistency in lactic-acid SD for wine from the nominal 50 degC chamber. The originally submitted Table 2 reports `0.29 +/- 0.02 g/L`, and this is the traceable tabulated experimental value. The alternative `0.29 +/- 0.20 g/L` appears in later revision/note material, but no raw chemical replicate data or other primary experimental record supporting the `0.20 g/L` SD was found. The final manuscript therefore reports `0.29 +/- 0.02 g/L` descriptively only. No significance claim is made for lactic acid, and microbiological activity cannot be ruled out because no viable cell counts or microbiological assays are available.
 
@@ -157,7 +190,7 @@ Summary-only chemical values used in the manuscript:
 - Total SO2: 50 +/- 5.5 mg/L vs 25 +/- 8.2 mg/L.
 - Free SO2: 31 +/- 2.5 mg/L vs 16 +/- 1.8 mg/L.
 
-These values are not position-resolved and cannot be linked directly to top/bottom pressure observations.
+These values are descriptive only. They are not position-resolved, cannot be linked directly to top/bottom pressure observations, and do not support treatment-level inferential statistics. The final manuscript therefore removes Tukey letters and chemistry p-values from Table 2 and related text.
 
 ## Remaining Statistical Limitations
 
@@ -166,8 +199,8 @@ These values are not position-resolved and cannot be linked directly to top/bott
 - Main-trial workbook does not retain stack IDs, preventing paired or blocked stack-level reanalysis.
 - Time-series timestamps are not treated as replicates; the ANOVA uses one or two derived summaries per sensor.
 - Verification trial has raw traces but only one stack and cannot establish population-level position effects.
-- Chemistry remains summary-only and not position-resolved.
-- No microbiology, sensory follow-up, shelf-life test, chamber airflow/volume/fan metadata, barometric reference or cost data were found.
+- Chemistry remains summary-only and not position-resolved; independent treatment-level replication cannot be verified.
+- No microbiology, sensory follow-up, shelf-life test, chamber-air logger, chamber airflow/volume/fan metadata, barometric reference, bench calibration in the wine matrix or cost data were found.
 
 ## Manuscript Statistics Traceability
 
@@ -178,6 +211,7 @@ These values are not position-resolved and cannot be linked directly to top/bott
 | Peak dP ANOVA F/p | `Results.xlsx` | `anova_pressure.py --from-raw`; `pressure_anova_raw.csv` | Sensor trace | Reproduced |
 | Day-20 dP ANOVA F/p | `Results.xlsx` | `anova_pressure.py --from-raw`; `pressure_anova_raw.csv` | Sensor trace | Reproduced |
 | First-five-hour pressure sensitivity | `Results.xlsx` | `early_transient_sensitivity.csv` | Sensor trace | New second-pass analysis |
-| Main actual in-bag temperatures | `Results.xlsx` | `thermal_summary_main_groups.csv` | Sensor trace | Reproduced from new data |
-| Verification temperature and dP | `Stack testing high temperature.xlsx` | `verification_summary_raw.csv` | Sensor trace within one stack | Reproduced from new data |
-| Chemical means and SDs | Manuscript Table 2 only | No raw replicate data | Bulk condition summary | Summary-only; not independently reproducible |
+| Main actual in-bag temperatures | `Results.xlsx` | `thermal_summary_main_groups.csv` | Sensor trace | Reproduced from original records |
+| Verification temperature and dP | `Stack testing high temperature.xlsx` | `verification_summary_raw.csv`; `verification_thermal_response.csv` | Sensor trace within one stack | Reproduced from original records |
+| Common-mode pressure diagnostic | `Results.xlsx` | `go_no_go_audit.py`; `pressure_common_mode_*.csv`; `pressure_leave_one_out.csv` | Sensor trace | Added go/no-go sensitivity |
+| Chemical means and SDs | Manuscript Table 2 only | No raw replicate data | Bulk condition summary | Summary-only; descriptive only |

@@ -4,8 +4,8 @@
 Two-way analysis of variance on the internal pressure of palletised Bag-in-Box units.
 
 Supporting code for the revised manuscript:
-    "Palletisation and In-Bag Thermal Exposure in Bag-in-Box Wine Packaging under
-     Simulated Export Conditions"
+    "In-Bag Pressure and Temperature Monitoring of Palletised 3-L Bag-in-Box Wine
+     under Static Chamber Conditions"
 
 This script reproduces every statistic reported in Sections 2.4 and 3.2 of the paper:
 

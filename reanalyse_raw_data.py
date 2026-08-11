@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""Second-pass raw-data audit for the BiB wine revision.
+"""Raw-data audit for the BiB wine revision.
 
-This script reads the new evidence files added in commit 989b7f4:
+This script reads the original study workbooks used for revision verification:
 
 * Results.xlsx: main-trial pressure/temperature workbook.
 * Stack testing high temperature.xlsx: verification-trial workbook.

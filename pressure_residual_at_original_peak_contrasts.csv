@@ -1,0 +1,3 @@
+response,contrast,estimate_mbar,ci95_low_mbar,ci95_high_mbar,df
+response,bottom_minus_top,22.375110643250103,5.190805055930529,39.55941623056968,8
+response,nominal_50_minus_19,5.037080390028674,-12.1472251972909,22.22138597734825,8
