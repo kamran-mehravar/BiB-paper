@@ -29,7 +29,6 @@ MAIN_XLSX = Path("Results.xlsx")
 VERIFICATION_XLSX = Path("Stack testing high temperature.xlsx")
 
 MAIN_STORAGE_END_D = 20.0
-BASELINE_END_D = 0.02
 HANDLING_END_D = 0.21
 DAY20_START_D = 19.5
 
@@ -240,7 +239,7 @@ def summarize_main_pressure(df: pd.DataFrame) -> tuple[pd.DataFrame, pd.DataFram
     for sid, position, chamber, t_col, p_col in MAIN_SENSORS:
         temp = df.iloc[:, t_col].to_numpy(float)[valid][storage]
         pressure = df.iloc[:, p_col].to_numpy(float)[valid][storage]
-        p0 = float(np.nanmedian(pressure[t <= BASELINE_END_D]))
+        p0 = float(pressure[np.isfinite(pressure)][0])
         delta_p = pressure - p0
 
         post_mask = t >= HANDLING_END_D
@@ -258,7 +257,7 @@ def summarize_main_pressure(df: pd.DataFrame) -> tuple[pd.DataFrame, pd.DataFram
                 "position": position,
                 "chamber": chamber,
                 "baseline_mbar": p0,
-                "baseline_rule": "median pressure for t <= 0.02 d; in this workbook this is the time-zero reading",
+                "baseline_rule": "initial valid pressure reading at time zero",
                 "peak_dP_mbar": float(delta_p[post_idx]),
                 "peak_day": float(t[post_idx]),
                 "peak_hour": float(t[post_idx] * 24.0),

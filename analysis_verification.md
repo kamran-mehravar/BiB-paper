@@ -25,7 +25,7 @@ Script: `anova_pressure.py --from-raw`; independently reproduced by `reanalyse_r
 
 Statistical unit: one instrumented BiB sensor trace. The workbook restores sensor IDs and position/nominal chamber mapping, but it does not restore stack IDs or top-bottom pairings. The analysis therefore remains exploratory and sensor-level. It is not a replicated chamber-level test and not a paired stack-level analysis.
 
-Baseline rule: median pressure for `t <= 0.02 d`. In `Results.xlsx`, the next time point after zero is `0.020833 d`; therefore this rule uses the time-zero pressure only.
+Baseline rule: the initial valid pressure reading at time zero was used as each sensor-specific baseline. Historical code used a `t <= 0.02 d` threshold, but in `Results.xlsx` the next time point after zero is `0.020833 d`; therefore the reproduced analysis used the time-zero pressure only. The final scripts now select the initial valid reading explicitly, without changing any derived pressure values.
 
 Primary peak rule: maximum baseline-referred pressure change after the handling window (`t >= 0.21 d`) and within the 20-day storage window.
 
@@ -147,11 +147,11 @@ The difference is consistent with scale, chamber loading, airflow, geometry or c
 
 Raw chemical replicate data remain absent. `Results.xlsx` contains no chemical sheet, hidden sheet, defined names or chemistry table. The chemical values therefore remain summary-only values from Table 2 / manuscript records.
 
-The repository contains an inconsistency in lactic-acid SD for wine from the nominal 50 degC chamber: the old submitted Table 2 reports `0.29 +/- 0.02 g/L`, while the manuscript text and first-pass revision record use `0.29 +/- 0.20 g/L`. Without raw replicates, the conservative revision keeps `0.29 +/- 0.20 g/L` and treats lactic acid descriptively. Microbiological activity cannot be ruled out because no viable cell counts or microbiological assays are available.
+The repository contains an inconsistency in lactic-acid SD for wine from the nominal 50 degC chamber. The originally submitted Table 2 reports `0.29 +/- 0.02 g/L`, and this is the traceable tabulated experimental value. The alternative `0.29 +/- 0.20 g/L` appears in later revision/note material, but no raw chemical replicate data or other primary experimental record supporting the `0.20 g/L` SD was found. The final manuscript therefore reports `0.29 +/- 0.02 g/L` descriptively only. No significance claim is made for lactic acid, and microbiological activity cannot be ruled out because no viable cell counts or microbiological assays are available.
 
 Summary-only chemical values used in the manuscript:
 
-- Lactic acid: 0.16 +/- 0.05 g/L (nominal 19) vs 0.29 +/- 0.20 g/L (nominal 50), descriptive.
+- Lactic acid: 0.16 +/- 0.05 g/L (nominal 19) vs 0.29 +/- 0.02 g/L (nominal 50), descriptive.
 - Malic acid: 1.1 +/- 0.23 g/L vs 1.0 +/- 0.16 g/L.
 - Volatile acidity: 0.30 +/- 0.02 g/L vs 0.39 +/- 0.03 g/L.
 - Total SO2: 50 +/- 5.5 mg/L vs 25 +/- 8.2 mg/L.

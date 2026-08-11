@@ -89,7 +89,6 @@ SENSORS = [
 
 RAW_PATH = "Results.xlsx"
 
-BASELINE_END_D = 0.02   # in Results.xlsx, this selects only the time-zero reading
 HANDLING_END_D = 0.21   # first ~5 h = transport of the units + assembly into stacks
 STORAGE_END_D = 20.0    # end of the 20-day storage window
 DAY20_START_D = 19.5    # residual DP = mean over the last 12 h
@@ -129,8 +128,7 @@ def extract_summary(raw_path=RAW_PATH):
     """Derive the per-sensor summary values from the raw logger export.
 
     For every sensor:
-      1. baseline P0 = median pressure for t <= 0.02 d; in Results.xlsx this is the
-         time-zero pressure because the next record is at 0.020833 d;
+      1. baseline P0 = the initial valid pressure reading at time zero;
       2. DP(t) = P(t) - P0, so the comparison rests on the change measured by a single
          device (stability +/-1 mbar/yr) rather than on agreement between devices, whose
          absolute accuracy is +/-1.5 mbar only at 20 degC between 300 and 1100 mbar;
@@ -147,7 +145,7 @@ def extract_summary(raw_path=RAW_PATH):
     rows = []
     for sid, position, chamber, _t_col, p_col in SENSORS:
         p = pd.to_numeric(df.iloc[:, p_col], errors="coerce")[valid].values[window]
-        p0 = np.nanmedian(p[t <= BASELINE_END_D])
+        p0 = p[np.isfinite(p)][0]
         dp = p - p0
         post = t >= HANDLING_END_D                       # exclude transport + stacking
         peak = np.nanmax(np.where(post, dp, -np.inf))

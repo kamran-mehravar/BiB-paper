@@ -49,11 +49,15 @@ Major revision for Reviewer 2 and Reviewer 3, updated after second-pass integrat
 
 - Confirmed that raw chemical replicate data remain absent after inspection of the new workbooks.
 - Downgraded the lactic-acid interpretation: malolactic fermentation is not supported by the reported malic-acid summary but cannot be ruled out without microbiology and sensitivity data.
-- Kept the conservative `0.29 +/- 0.20 g/L` lactic-acid value because available repository files conflict on the SD and raw replicates are unavailable.
+- Restored `0.29 +/- 0.02 g/L` as the traceable lactic-acid value from the originally submitted Table 2; the alternative `0.29 +/- 0.20 g/L` appears only in later revision/note material and has no primary-data support.
 - Removed unsupported exclusion of residual microbial activity.
 - Clarified that volatile-acidity changes are consistent with warmer storage but are not mechanistically resolved.
 - Rephrased SO2 and acidity language as after-20-day between-condition differences rather than undocumented temporal losses or increases.
 - Corrected Table 2 sample labels so they refer to nominal chamber conditions rather than actual wine temperature.
+
+## Final Micro-Audit
+
+- Clarified that pressure dP was calculated from each sensor's initial valid pressure reading at time zero. Historical code used `t <= 0.02 d`, but the next workbook record is at `0.020833 d`, so the reproduced analysis already used the initial reading only and numerical pressure results did not change.
 
 ## Verification Trial
 

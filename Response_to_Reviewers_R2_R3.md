@@ -98,11 +98,11 @@ The lactic-acid increase cannot be confidently attributed to heat-driven chemist
 
 ### Response
 
-We agree. We inspected the newly added `Results.xlsx` workbook and confirmed that it contains pressure/temperature data only, not raw chemical replicates. The repository therefore still does not resolve the lactic-acid SD inconsistency in the original files or provide microbiological evidence. The manuscript keeps the conservative `0.29 +/- 0.20 g/L` value for the nominally warmer chamber and treats lactic acid descriptively. We state that malic acid did not show the clear decrease expected for a simple malolactic-conversion interpretation, but we no longer state that malolactic fermentation was ruled out. Residual microbial activity cannot be excluded.
+We agree. We inspected the newly added `Results.xlsx` workbook and confirmed that it contains pressure/temperature data only, not raw chemical replicates. A final repository-wide audit traced `0.29 +/- 0.02 g/L` to the originally submitted Table 2, whereas the alternative `0.29 +/- 0.20 g/L` appears only in later revision/note material and could not be traced to raw chemical replicates or another primary experimental record. The manuscript therefore reports `0.29 +/- 0.02 g/L` as the traceable descriptive Table 2 value, without a significance claim. We state that malic acid did not show the clear decrease expected for a simple malolactic-conversion interpretation, but we no longer state that malolactic fermentation was ruled out. Residual microbial activity cannot be excluded.
 
 ### Changes in Manuscript
 
-Sections 2.4 and 3.1, Table 2 and Limitations were revised to describe lactic acid as a descriptive observation and to state the absence of raw chemical replicates, microbiology, viable cell counts and method-sensitivity data.
+Sections 2.4 and 3.1, Table 2 and Limitations were revised to report lactic acid descriptively using the traceable `0.29 +/- 0.02 g/L` value and to state the absence of raw chemical replicates, microbiology, viable cell counts and method-sensitivity data.
 
 ### R2.8 Table 2 labels
 
