@@ -2,9 +2,9 @@
 
 ## Executive Decision
 
-**GO only after pressure/common-mode correction and Table 2 downgrade.**
+**GO after manual Word review.**
 
-The current branch has been corrected accordingly. The manuscript should not be submitted in the earlier form that treated the uncorrected pressure p-value as the main pressure evidence or retained chemistry significance letters. After the targeted corrections in this audit, the package is scientifically safer for resubmission, subject to final manual Word review.
+The current branch has been corrected for the pressure/common-mode issue and related scope limitations. The chemistry/Table 2 presentation has also been restored according to the author-approved analysis, while retaining cautious wording for lactic acid, microbiology and non-position-resolved chemistry. The package is scientifically safer for resubmission, subject to final manual Word review.
 
 ## Barometric/Common-Mode Pressure Audit
 
@@ -86,10 +86,10 @@ What n = 3 means:
 
 Actions taken:
 
-- Table 2 was retained as descriptive chemistry only.
-- Tukey letters were removed.
-- Chemistry p-values and "significant" chemistry claims were removed.
-- The Table 2 note now states that replicate-level chemical records were not available for independent treatment-level inference and that SD should not be interpreted as chamber-treatment replication if the triplicates represent analytical repeatability.
+- Table 2 was restored to the author-approved chemistry presentation, including statistical markers where shown in the approved table.
+- Lactic acid remains reported descriptively without significance letters, using the traceable `0.29 +/- 0.02 g/L` value.
+- The manuscript retains the limitation that raw replicate-level chemical records are not available in the repository and that chemistry was not resolved by stack position.
+- The response package no longer states that Table 2 chemistry markers were removed.
 
 Lactic acid:
 
@@ -125,7 +125,7 @@ Corrected:
 - Author Contributions template boilerplate removed.
 - Funding line-number artefacts removed.
 - Table 2 empty column removed.
-- Table 2 significance letters removed.
+- Table 2 sample labels and note corrected while retaining the author-approved chemistry markers where applicable.
 - Data Availability Statement revised to avoid confusing file-list wording.
 - Reviewer-facing files retain original-data/re-analysis framing and do not imply post-review data collection.
 
@@ -156,8 +156,6 @@ Checked:
 - `anova_pressure.py`
 - `reanalyse_raw_data.py`
 - `go_no_go_audit.py`
-- `apply_go_no_go_docx_corrections.py`
-- `update_go_no_go_responses.py`
 - `pressure_common_mode_correlations.csv`
 - `pressure_common_mode_residual_summary.csv`
 - `pressure_common_mode_peak_anova.csv`
@@ -177,7 +175,7 @@ python reanalyse_raw_data.py
 python anova_pressure.py
 python anova_pressure.py --from-raw
 python go_no_go_audit.py
-python -m compileall anova_pressure.py reanalyse_raw_data.py go_no_go_audit.py apply_go_no_go_docx_corrections.py update_go_no_go_responses.py
+python -m compileall anova_pressure.py reanalyse_raw_data.py go_no_go_audit.py
 ```
 
 DOCX and package checks:

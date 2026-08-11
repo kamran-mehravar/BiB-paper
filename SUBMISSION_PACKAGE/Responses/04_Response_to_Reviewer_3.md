@@ -2,7 +2,7 @@
 
 **Manuscript:** "In-Bag Pressure and Temperature Monitoring of Palletised 3-L Bag-in-Box Wine under Static Chamber Conditions"
 
-We thank Reviewer 3 for the detailed and constructive assessment. In response to the reviewer comments, we undertook a comprehensive re-examination of the original experimental records and revised the manuscript accordingly. This included re-analysis of the main-trial pressure and temperature time-series, an internal common-mode pressure diagnostic, a sensitivity analysis of the initial handling period, a descriptive-only presentation of Table 2 chemistry, a more detailed examination of the verification trial, and revision of Figures 3-7 to ensure that nominal chamber set points are clearly distinguished from measured in-bag temperatures. These analyses improve the transparency and traceability of the reported results but do not alter the underlying experimental design or its limitations.
+We thank Reviewer 3 for the detailed and constructive assessment. In response to the reviewer comments, we undertook a comprehensive re-examination of the original experimental records and revised the manuscript accordingly. This included re-analysis of the main-trial pressure and temperature time-series, an internal common-mode pressure diagnostic, a sensitivity analysis of the initial handling period, a more detailed examination of the verification trial, and revision of Figures 3-7 to ensure that nominal chamber set points are clearly distinguished from measured in-bag temperatures. These analyses improve the transparency and traceability of the reported results but do not alter the underlying experimental design or its limitations.
 
 ## R3.1 Stacking configuration and interpretability
 

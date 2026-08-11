@@ -190,7 +190,7 @@ Summary-only chemical values used in the manuscript:
 - Total SO2: 50 +/- 5.5 mg/L vs 25 +/- 8.2 mg/L.
 - Free SO2: 31 +/- 2.5 mg/L vs 16 +/- 1.8 mg/L.
 
-These values are descriptive only. They are not position-resolved, cannot be linked directly to top/bottom pressure observations, and do not support treatment-level inferential statistics. The final manuscript therefore removes Tukey letters and chemistry p-values from Table 2 and related text.
+These values are not position-resolved and cannot be linked directly to top/bottom pressure observations. The final manuscript retains the author-approved Table 2 chemistry presentation, including statistical markers where shown in the approved table. Lactic acid remains descriptive without significance letters because raw replicate data were unavailable and the later `0.20 g/L` SD could not be traced to a primary experimental record.
 
 ## Remaining Statistical Limitations
 
@@ -199,7 +199,7 @@ These values are descriptive only. They are not position-resolved, cannot be lin
 - Main-trial workbook does not retain stack IDs, preventing paired or blocked stack-level reanalysis.
 - Time-series timestamps are not treated as replicates; the ANOVA uses one or two derived summaries per sensor.
 - Verification trial has raw traces but only one stack and cannot establish population-level position effects.
-- Chemistry remains summary-only and not position-resolved; independent treatment-level replication cannot be verified.
+- Chemistry remains summary-only in the repository and not position-resolved; the repository cannot independently reproduce the author-approved chemistry statistics because raw replicate-level chemistry records were not retained.
 - No microbiology, sensory follow-up, shelf-life test, chamber-air logger, chamber airflow/volume/fan metadata, barometric reference, bench calibration in the wine matrix or cost data were found.
 
 ## Manuscript Statistics Traceability
@@ -214,4 +214,4 @@ These values are descriptive only. They are not position-resolved, cannot be lin
 | Main actual in-bag temperatures | `Results.xlsx` | `thermal_summary_main_groups.csv` | Sensor trace | Reproduced from original records |
 | Verification temperature and dP | `Stack testing high temperature.xlsx` | `verification_summary_raw.csv`; `verification_thermal_response.csv` | Sensor trace within one stack | Reproduced from original records |
 | Common-mode pressure diagnostic | `Results.xlsx` | `go_no_go_audit.py`; `pressure_common_mode_*.csv`; `pressure_leave_one_out.csv` | Sensor trace | Added go/no-go sensitivity |
-| Chemical means and SDs | Manuscript Table 2 only | No raw replicate data | Bulk condition summary | Summary-only; descriptive only |
+| Chemical means, SDs and Table 2 markers | Manuscript Table 2 only | No raw replicate data | Bulk condition summary | Author-approved summary presentation; lactic acid descriptive; raw-replicate statistics not independently reproducible from repository files |

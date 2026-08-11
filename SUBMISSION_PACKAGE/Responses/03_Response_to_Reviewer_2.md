@@ -2,7 +2,7 @@
 
 **Manuscript:** "In-Bag Pressure and Temperature Monitoring of Palletised 3-L Bag-in-Box Wine under Static Chamber Conditions"
 
-We thank Reviewer 2 for the detailed and constructive assessment. In response to the reviewer comments, we undertook a comprehensive re-examination of the original experimental records and revised the manuscript accordingly. This included re-analysis of the main-trial pressure and temperature time-series, an internal common-mode pressure diagnostic, a sensitivity analysis of the initial handling period, a descriptive-only presentation of Table 2 chemistry, a more detailed examination of the verification trial, and revision of Figures 3-7 to ensure that nominal chamber set points are clearly distinguished from measured in-bag temperatures. These analyses improve the transparency and traceability of the reported results but do not alter the underlying experimental design or its limitations.
+We thank Reviewer 2 for the detailed and constructive assessment. In response to the reviewer comments, we undertook a comprehensive re-examination of the original experimental records and revised the manuscript accordingly. This included re-analysis of the main-trial pressure and temperature time-series, an internal common-mode pressure diagnostic, a sensitivity analysis of the initial handling period, a more detailed examination of the verification trial, and revision of Figures 3-7 to ensure that nominal chamber set points are clearly distinguished from measured in-bag temperatures. These analyses improve the transparency and traceability of the reported results but do not alter the underlying experimental design or its limitations.
 
 ## R2.1 Main trial did not achieve 50 degC
 
@@ -26,7 +26,7 @@ The Abstract should be condensed, restructured and explicit about the actual tem
 
 ### Response
 
-The Abstract has been revised to reflect the re-analysis of the original experimental records. It now reports the late-temperature summaries, the uncorrected exploratory pressure result, the common-mode pressure sensitivity, the descriptive-only scope of the chemistry data, and the limited role of the verification trial.
+The Abstract has been revised to reflect the re-analysis of the original experimental records. It now reports the late-temperature summaries, the uncorrected exploratory pressure result, the common-mode pressure sensitivity, the approved Table 2 chemistry presentation, and the limited role of the verification trial.
 
 ### Changes in Manuscript
 
@@ -82,7 +82,7 @@ The claim that palletisation governs physical behaviour and temperature governs 
 
 ### Response
 
-We agree. The manuscript no longer presents this binary causal attribution. The original study records do not contain position-resolved chemistry. The final text states that pressure was measured by package position and showed transient position-related offsets superimposed on a common-mode absolute-pressure component, whereas chemistry is presented as descriptive bulk summaries grouped by nominal chamber condition. These two datasets support different descriptive response patterns, but they do not demonstrate that palletisation and temperature act independently or exclusively on separate parts of the system.
+We agree. The manuscript no longer presents this binary causal attribution. The original study records do not contain position-resolved chemistry. The final text states that pressure was measured by package position and showed transient position-related offsets superimposed on a common-mode absolute-pressure component, whereas chemistry was measured as bulk wine grouped by nominal chamber condition. These two datasets support different descriptive response patterns, but they do not demonstrate that palletisation and temperature act independently or exclusively on separate parts of the system.
 
 ### Changes in Manuscript
 
@@ -96,11 +96,11 @@ The lactic-acid increase cannot be confidently attributed to heat-driven chemist
 
 ### Response
 
-We agree. We re-examined the available original experimental records and confirmed that raw replicate-level chemical measurements were not retained in the available study records. The originally submitted Table 2 reports `0.29 +/- 0.02 g/L`, whereas no primary experimental record supports the alternative `0.29 +/- 0.20 g/L`. The manuscript therefore reports `0.29 +/- 0.02 g/L` as the traceable descriptive Table 2 value, without a significance claim. Because independent treatment-level replication cannot be verified for the chemistry table, Tukey letters and chemistry p-values have been removed. Malic acid was numerically similar between conditions, but we no longer state that malolactic fermentation was ruled out. Residual microbial activity cannot be excluded.
+We agree. We re-examined the available original experimental records and confirmed that raw replicate-level chemical measurements were not retained in the available study records. The originally submitted Table 2 reports `0.29 +/- 0.02 g/L`, whereas no primary experimental record supports the alternative `0.29 +/- 0.20 g/L`. The manuscript therefore reports `0.29 +/- 0.02 g/L` as the traceable descriptive Table 2 value, without a significance claim. Lactic acid remains reported descriptively without significance letters. Malic acid did not decrease significantly, but we no longer state that malolactic fermentation was ruled out. Residual microbial activity cannot be excluded.
 
 ### Changes in Manuscript
 
-Sections 2.1, 2.4 and 3.1, Table 2 and Limitations were revised to report chemistry descriptively using the traceable Table 2 values and to state the absence of raw chemical replicates, microbiology, viable cell counts and method-sensitivity data.
+Sections 2.1, 2.4 and 3.1, Table 2 and Limitations were revised to retain the approved Table 2 chemistry presentation, report lactic acid cautiously using the traceable `0.29 +/- 0.02 g/L` value, and state the absence of raw chemical replicates, microbiology, viable cell counts and method-sensitivity data.
 
 ## R2.8 Table 2 labels
 
@@ -110,11 +110,11 @@ Sections 2.1, 2.4 and 3.1, Table 2 and Limitations were revised to report chemis
 
 ### Response
 
-Corrected. Table 2 now labels the rows as wine from the nominal 19 degC chamber and wine from the nominal 50 degC chamber. The caption states that these labels are chamber set points, not actual in-bag wine temperatures. Because independent treatment-level replication could not be verified for the chemistry records, the table now reports descriptive summaries only and contains no significance letters. Because independent treatment-level replication could not be verified for the chemistry records, the table now reports descriptive summaries only and contains no significance letters.
+Corrected. Table 2 now labels the rows as wine from the nominal 19 degC chamber and wine from the nominal 50 degC chamber. The caption states that these labels are chamber set points, not actual in-bag wine temperatures. The approved Table 2 chemistry markers are retained, while lactic acid remains descriptive without significance letters.
 
 ### Changes in Manuscript
 
-Table 2 row labels, caption, values and note were revised and highlighted; significance letters were removed.
+Table 2 row labels, caption, values and note were revised and highlighted; the approved chemistry significance letters were restored except for lactic acid, which remains descriptive.
 
 ## R2.9 First five hours excluded
 

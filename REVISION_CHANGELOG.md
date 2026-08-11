@@ -67,7 +67,7 @@ Major revision for Reviewer 2 and Reviewer 3, updated after second-pass integrat
 - Retained the reproducible uncorrected peak dP ANOVA result, but added the common-mode residual sensitivity: the position term for each sensor's maximum common-mode residual was not statistically detectable (F(1,8) = 3.21; p = 0.111).
 - Added leave-one-out pressure robustness: the original uncorrected peak-position p-values ranged from 0.0007 to 0.0511, with one single-sensor deletion crossing p = 0.05.
 - Downgraded pressure interpretation in the Abstract, Results, Figure 5 caption, Limitations and Conclusions to an exploratory transient position-related offset superimposed on common-mode absolute-pressure variation.
-- Downgraded Table 2 chemistry to descriptive mean +/- SD only. Tukey letters, chemistry p-values and "significant" chemistry language were removed because independent treatment-level chemistry replication could not be verified.
+- Restored the author-approved Table 2 chemistry presentation after the pressure audit, including chemistry markers where applicable. Lactic acid remains descriptive with the traceable `0.29 +/- 0.02 g/L` value, and malolactic fermentation is not ruled out.
 - Revised thermal interpretation to state that main-trial day-20 temperatures were stable far below the nominal 50 degC set point, suggesting sustained under-delivery and/or stratification rather than only a short transient lag.
 - Changed the title to "In-Bag Pressure and Temperature Monitoring of Palletised 3-L Bag-in-Box Wine under Static Chamber Conditions" to avoid implying a full transport simulation protocol.
 - Removed MDPI metadata/template boilerplate, fixed stray funding line-number artefacts and corrected the Data Availability Statement.
