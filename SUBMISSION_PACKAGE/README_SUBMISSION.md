@@ -1,33 +1,73 @@
 # Journal Resubmission Package
 
-This folder contains the final files prepared for journal resubmission after revision in response to Reviewer 2 and Reviewer 3.
+This folder contains the final local files for manual journal resubmission of:
 
-## Manuscript
+**Palletisation and In-Bag Thermal Exposure in Bag-in-Box Wine Packaging under Simulated Export Conditions**
 
-- `01_Manuscript_FINAL_HIGHLIGHTED.docx` — final revised manuscript with reviewer-driven changes highlighted. Use this as the marked revision file when the journal requests a highlighted/marked manuscript.
-- `02_Manuscript_FINAL_CLEAN.docx` — identical final scientific content without highlighting. Use this when the submission system requests a clean revised manuscript.
+The scientific manuscript is frozen. The files in this package are organized for manual review and upload in Microsoft Word and the journal submission portal.
 
-## Responses to Reviewers
+## Recommended Upload Order
 
-- `03_Response_to_Reviewer_2.md` — point-by-point response to Reviewer 2.
-- `04_Response_to_Reviewer_3.md` — point-by-point response to Reviewer 3.
+### 1. Revised Manuscript with Changes Highlighted
 
-The two response files are intentionally separate as requested.
+`Manuscripts/01_Manuscript_FINAL_HIGHLIGHTED.docx`
 
-## Final Figures
+### 2. Clean Revised Manuscript
 
-The `Figures/` subfolder contains the corrected final versions of Figures 3–7 used in the revised manuscript:
+`Manuscripts/02_Manuscript_FINAL_CLEAN.docx`
 
-- Figure 3: pressure and temperature
-- Figure 4: first-16-hour transient
-- Figure 5: ΔP
-- Figure 6: attained temperature
-- Figure 7: verification trial
+### 3. Response to Reviewer 2
 
-Only the `_FINAL` figure versions are included in this submission package.
+`Responses/03_Response_to_Reviewer_2.docx`
 
-## Notes
+Markdown source copy: `Responses/03_Response_to_Reviewer_2.md`
 
-- Raw data, analysis scripts, audit reports and internal notes are deliberately not duplicated into this folder because they are reproducibility/internal-support material rather than standard resubmission files. They remain available elsewhere on the `major-revision-r2-r3` branch.
-- If the journal portal asks for supplementary/source data or analysis code, those files should be uploaded separately from the repository rather than from this submission-only folder.
-- The manuscript content was frozen after the final lactic-acid and pressure-baseline audit at commit `6e1058d96e1aae507c40d3561e9d2338a32ae170`.
+### 4. Response to Reviewer 3
+
+`Responses/04_Response_to_Reviewer_3.docx`
+
+Markdown source copy: `Responses/04_Response_to_Reviewer_3.md`
+
+### 5. Figures
+
+Use only these final standalone figure files if the portal requests separate figure uploads or if you manually reinsert figures into Word:
+
+- `Figures/Figure3_pressure_temperature_FINAL.png`
+- `Figures/Figure4_transient_16h_FINAL.png`
+- `Figures/Figure5_deltaP_FINAL.png`
+- `Figures/Figure6_temperature_attained_FINAL.png`
+- `Figures/Figure7_verification_trial_FINAL.png`
+
+See `Manuscripts/FIGURE_INSERTION_GUIDE.md` for exact placement and final captions.
+
+## Do Not Upload Unless Requested
+
+- Raw Excel files should not normally be uploaded unless the journal specifically requests source data.
+- Python scripts should not normally be uploaded unless requested as supplementary or reproducibility material.
+- Internal notes must not be uploaded.
+- `Nota_per_Nicola_acido_lattico.docx` must not be submitted.
+- Old or non-final figures must not be submitted.
+- Old manuscript versions must not be submitted.
+
+## Package Notes
+
+- The highlighted and clean manuscripts were copied from the validated final DOCX files at repository root.
+- Figures 3-7 in the package are the `_FINAL.png` versions only.
+- Programmatic inspection found that the current package manuscripts already embed byte-identical `_FINAL.png` images for Figures 3-7.
+- Manual figure replacement is not required unless Word displays a problem or you choose to reinsert figures manually.
+
+## Manual checks before upload
+
+- [ ] Open highlighted manuscript in Microsoft Word.
+- [ ] Confirm all yellow highlights display correctly.
+- [ ] Confirm Figures 3-7 are the `_FINAL.png` versions.
+- [ ] Insert/replace Figures 3-7 manually if required.
+- [ ] Confirm captions remain attached to the correct figures.
+- [ ] Confirm Table 2 shows lactic acid `0.29 ? 0.02 g/L`.
+- [ ] Confirm manuscript never describes main-trial wine as exposed to 50 ?C.
+- [ ] Confirm verification trial says no in-bag sensor reached 50 ?C.
+- [ ] Confirm Reviewer 2 response contains only Reviewer 2.
+- [ ] Confirm Reviewer 3 response contains only Reviewer 3.
+- [ ] Confirm clean manuscript has no yellow highlighting.
+- [ ] Confirm manuscript title is identical across manuscript and reviewer responses.
+- [ ] Confirm obsolete manuscripts/figures are not selected for upload.
