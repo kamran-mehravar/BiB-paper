@@ -70,7 +70,7 @@ Section 3.2, immediately above the caption paragraph beginning "Figure 5." Inser
 Figure 5. Change in internal pressure referred to each sensor's own baseline (ΔP), by stack position and nominal chamber condition. (A) post-handling peak value; individual sensor peaks occurred between 85.0 and 138.5 h (about days 3.5-5.8). (B) residual value on day 20. Circles are individual sensors (n = 3 per position, except bottom position at nominal 19 °C, for which n = 2) and bars give mean ± 1 SD. At the pressurisation peak, bottom-position BiBs had a larger ΔP than top-position BiBs in the exploratory sensor-level analysis. The two-way ANOVA gave F(1,8) = 9.14 and p = 0.017. No statistically detectable nominal chamber-condition effect was observed (F(1,8) = 0.21; p = 0.66). By day 20 neither factor was statistically detectable.
 
 ### Readability update
-This figure has no time axis. Panel labels and a cautious position-effect callout were restored for readability while retaining the exploratory sensor-level interpretation.
+This figure has no time axis. Panel labels and a cautious position-effect callout were restored for readability while retaining the exploratory sensor-level interpretation. The panel A statistics note was moved away from the data cluster.
 
 ### Width / placement recommendation
 - Centre the image.
@@ -97,7 +97,7 @@ Section 3.3, immediately above the caption paragraph beginning "Figure 6." Inser
 Figure 6. Temperature recorded inside bags in the two trials run under a nominal 50 °C chamber set point. (A) Main trial, 20 days: units stabilised at about 34 °C at the top of the stacks and 26 °C at the bottom; the nominal 19 °C reference chamber is shown in grey. (B) Verification trial, 15 days: individual sensors reached 45.0-48.8 °C, and no in-bag sensor reached 50 °C; V26 stopped on day 4.35. In panel A, solid lines are means across units and shaded bands are ± 1 SD. In panel B, lines are individual sensors. The dashed horizontal line marks the nominal chamber set point.
 
 ### Readability update
-X-axis ticks were corrected to integer days: 0, 5, 10, 15, 20 for the main trial and 0, 3, 6, 9, 12, 15 for the verification trial. Direct labels for the nominal set point, main-trial attained temperatures, set-point shortfall and no-sensor-reached-50 °C statement were restored where scientifically valid.
+X-axis ticks were corrected to integer days: 0, 5, 10, 15, 20 for the main trial and 0, 3, 6, 9, 12, 15 for the verification trial. Labels for main-trial attained temperatures were moved away from the curves with leader lines, the set-point shortfall bracket was clarified, and the legends were moved below the panels. The verification-trial V26 dropout label is shown in clear space.
 
 ### Width / placement recommendation
 - Centre the image.
@@ -124,7 +124,7 @@ Section 3.3, immediately above the caption paragraph beginning "Figure 7." Inser
 Figure 7. Verification trial under a nominal 50 °C chamber set point: internal pressure referred to each sensor's first valid pressure (A) and temperature (B), logged every minute over 15 days in a single three-box stack. Each sensor is drawn separately and identified by position; V26 ceased to transmit on day 4.35. Pressure peaks ranged from 9.6 to 26.5 mbar. No in-bag sensor reached 50 °C. The simultaneous negative excursion near day 6, common to all sensors, indicates a common-mode component; possible ambient barometric variation cannot be separated because no barometric reference sensor was logged.
 
 ### Readability update
-X-axis ticks were corrected to clean 3-day intervals (0, 3, 6, 9, 12, 15). V26 dropout, common dip and nominal set-point annotations were restored with cautious wording.
+X-axis ticks were corrected to clean 3-day intervals (0, 3, 6, 9, 12, 15). The V26 dropout annotation was rewritten from awkward decimal-day wording to reader-friendly mixed units, the common-dip wording was simplified, and the no-50 °C statement was moved into clear space.
 
 ### Width / placement recommendation
 - Centre the image.

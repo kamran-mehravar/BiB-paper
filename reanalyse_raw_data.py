@@ -595,8 +595,9 @@ def regenerate_figures(main_df: pd.DataFrame, pressure_summary: pd.DataFrame, ve
     axes[0].text(0.50, 0.96, "bottom > top at peak\nposition effect p=0.017",
                  transform=axes[0].transAxes, fontsize=10, ha="center", va="top",
                  bbox=dict(facecolor="white", edgecolor="#bbbbbb", boxstyle="round,pad=0.25", alpha=0.9))
-    axes[0].text(0.04, 0.08, "position: F(1,8)=9.14, p=0.017\nchamber: F(1,8)=0.21, p=0.66",
-                 transform=axes[0].transAxes, fontsize=10)
+    stat_box = dict(facecolor="white", edgecolor="none", alpha=0.86, pad=1.5)
+    axes[0].text(0.22, 0.05, "position: F(1,8)=9.14, p=0.017\nchamber: F(1,8)=0.21, p=0.66",
+                 transform=axes[0].transAxes, fontsize=10, bbox=stat_box)
     axes[1].text(0.04, 0.08, "position: F(1,8)=0.35, p=0.57\nchamber: F(1,8)=0.81, p=0.39",
                  transform=axes[1].transAxes, fontsize=10)
     axes[0].legend(
@@ -612,7 +613,9 @@ def regenerate_figures(main_df: pd.DataFrame, pressure_summary: pd.DataFrame, ve
     plt.close(fig)
 
     # Figure 6
-    fig, axes = plt.subplots(1, 2, figsize=(15, 6.6), sharey=True)
+    fig, axes = plt.subplots(1, 2, figsize=(16.4, 7.0), sharey=True)
+    label_box = dict(facecolor="white", edgecolor="none", alpha=0.88, pad=1.8)
+    leader = dict(arrowstyle="-", color="#666666", linewidth=1.0)
     ax = axes[0]
     for pos, color, label in [("Top", amber, "Nominal 50 °C top"), ("Bottom", blue, "Nominal 50 °C bottom")]:
         plot_mean_sd(ax, series, "temperature_degC", "50", pos, color, label)
@@ -626,15 +629,23 @@ def regenerate_figures(main_df: pd.DataFrame, pressure_summary: pd.DataFrame, ve
     ax.set_title("(A) Main trial: nominal 50 °C set point", loc="left", fontsize=13, fontweight="bold")
     ax.set_ylabel("Temperature inside the bag (°C)")
     ax.set_xlabel("Time after start (days)")
-    ax.set_xlim(-0.4, 20.4)
+    ax.set_xlim(-0.4, 22.2)
+    ax.set_ylim(18, 52.5)
     set_day_ticks(ax, [0, 5, 10, 15, 20])
-    ax.text(19.6, 50.4, "50 °C set point", color="#c7352d", fontsize=9, ha="right", va="bottom")
-    ax.text(18.6, 34.3, "top ~34 °C", color=amber, fontsize=10, fontweight="bold", ha="right")
-    ax.text(18.6, 26.2, "bottom ~26 °C", color=blue, fontsize=10, fontweight="bold", ha="right")
-    ax.annotate("set-point\nshortfall", xy=(12.0, 42.0), xytext=(12.0, 49.0),
-                ha="center", va="top", color="#c7352d", fontsize=9,
-                arrowprops=dict(arrowstyle="<->", color="#c7352d", linewidth=1.0))
-    ax.legend(frameon=False, loc="lower right")
+    ax.text(21.7, 50.6, "50 °C set point", color="#c7352d", fontsize=9,
+            ha="right", va="bottom", bbox=label_box)
+    ax.annotate("top mean\n~34 °C", xy=(18.3, 34.3), xytext=(20.6, 38.0),
+                color=amber, fontsize=10, fontweight="bold", ha="left", va="center",
+                arrowprops=leader, bbox=label_box, annotation_clip=False)
+    ax.annotate("bottom mean\n~26 °C", xy=(18.3, 26.2), xytext=(20.6, 29.0),
+                color=blue, fontsize=10, fontweight="bold", ha="left", va="center",
+                arrowprops=leader, bbox=label_box, annotation_clip=False)
+    ax.annotate("", xy=(9.1, 50.0), xytext=(9.1, 34.8),
+                arrowprops=dict(arrowstyle="<->", color="#c7352d", linewidth=1.2))
+    ax.text(9.45, 42.4, "set-point shortfall\n(main trial)", color="#c7352d",
+            fontsize=9, ha="left", va="center", bbox=label_box)
+    ax.legend(frameon=False, loc="upper center", bbox_to_anchor=(0.5, -0.16),
+              ncol=2, fontsize=9)
     style_axis(ax)
 
     ax = axes[1]
@@ -647,12 +658,19 @@ def regenerate_figures(main_df: pd.DataFrame, pressure_summary: pd.DataFrame, ve
     ax.set_title("(B) Verification trial: nominal 50 °C set point", loc="left", fontsize=13, fontweight="bold")
     ax.set_xlabel("Time after start (days)")
     ax.set_xlim(-0.4, 15.6)
+    ax.set_ylim(18, 52.5)
     set_day_ticks(ax, [0, 3, 6, 9, 12, 15])
-    ax.text(15.0, 50.4, "50 °C set point", color="#c7352d", fontsize=9, ha="right", va="bottom")
-    ax.legend(frameon=False, loc="lower right")
-    ax.text(0.03, 0.08, "No in-bag sensor reached 50 °C", transform=ax.transAxes, color="#555555")
+    ax.text(15.0, 50.6, "50 °C set point", color="#c7352d", fontsize=9,
+            ha="right", va="bottom", bbox=label_box)
+    ax.annotate("V26 stops\nafter ~4 days 8 h", xy=(4.35, 48.7), xytext=(4.9, 51.3),
+                color="#555555", fontsize=9, ha="left", va="center",
+                arrowprops=leader, bbox=label_box)
+    ax.text(0.54, 0.42, "No in-bag sensor\nreached 50 °C", transform=ax.transAxes,
+            color="#555555", fontsize=9, ha="center", va="center", bbox=label_box)
+    ax.legend(frameon=False, loc="upper center", bbox_to_anchor=(0.5, -0.16),
+              ncol=2, fontsize=9)
     style_axis(ax)
-    fig.tight_layout()
+    fig.tight_layout(rect=(0, 0.16, 1, 1), w_pad=2.3)
     fig.savefig("Figure6_temperature_attained_FINAL.png", dpi=300)
     plt.close(fig)
 
@@ -676,16 +694,19 @@ def regenerate_figures(main_df: pd.DataFrame, pressure_summary: pd.DataFrame, ve
         style_axis(ax)
         ax.set_xlim(-0.3, 15.3)
         set_day_ticks(ax, [0, 3, 6, 9, 12, 15])
-    axes[0].annotate("V26 stops\nday 4.35", xy=(4.35, 5.0), xytext=(5.2, 20.0),
+    axes[0].annotate("V26 stops\nafter ~4 days 8 h", xy=(4.35, 5.0), xytext=(5.2, 20.0),
                      arrowprops=dict(arrowstyle="->", color="#777777", linewidth=1.0),
-                     color="#777777", fontsize=9, ha="left")
-    axes[0].annotate("common dip\nnear day 6", xy=(6.2, -25.0), xytext=(7.8, -11.0),
+                     color="#555555", fontsize=9, ha="left",
+                     bbox=dict(facecolor="white", edgecolor="#bbbbbb", boxstyle="round,pad=0.25", alpha=0.88))
+    axes[0].annotate("common dip\naround day 6", xy=(6.2, -25.0), xytext=(7.8, -11.0),
                      arrowprops=dict(arrowstyle="->", color="#777777", linewidth=1.0),
                      color="#555555", fontsize=9, ha="left",
                      bbox=dict(facecolor="white", edgecolor="#bbbbbb", boxstyle="round,pad=0.25", alpha=0.88))
     axes[1].text(15.0, 50.5, "50 °C set point", color="#c7352d", fontsize=9, ha="right", va="bottom")
-    axes[1].text(0.03, 0.08, "No in-bag sensor reached 50 °C",
-                 transform=axes[1].transAxes, color="#555555", fontsize=9)
+    axes[1].text(0.56, 0.50, "No in-bag sensor\nreached 50 °C",
+                 transform=axes[1].transAxes, color="#555555", fontsize=9,
+                 ha="center", va="center",
+                 bbox=dict(facecolor="white", edgecolor="none", alpha=0.88, pad=1.8))
     axes[0].legend(frameon=False, loc="upper right", ncol=4)
     fig.tight_layout()
     fig.savefig("Figure7_verification_trial_FINAL.png", dpi=300)
