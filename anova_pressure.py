@@ -3,9 +3,9 @@
 """
 Two-way analysis of variance on the internal pressure of palletised Bag-in-Box units.
 
-Supporting code for:
-    "Effect of Palletisation and Temperature on Bag-in-Box Wine Packaging under
-     Simulated Export Conditions" (manuscript foods-4411772)
+Supporting code for the revised manuscript:
+    "Palletisation and In-Bag Thermal Exposure in Bag-in-Box Wine Packaging under
+     Simulated Export Conditions"
 
 This script reproduces every statistic reported in Sections 2.4 and 3.2 of the paper:
 
@@ -15,9 +15,9 @@ This script reproduces every statistic reported in Sections 2.4 and 3.2 of the p
     DP on the twentieth day           position  F(1,8) = 0.35   p = 0.57
                                       chamber   F(1,8) = 0.81   p = 0.39
 
-Model (Eq. 1 in the paper), fitted for each response separately:
+Primary model (Eq. 1 in the paper), fitted for each response separately:
 
-    y_ijk = mu + alpha_i + beta_j + (alpha*beta)_ij + eps_ijk
+    y_ijk = mu + alpha_i + beta_j + eps_ijk
 
     y_ijk  summary value of the DP curve of one sensor (peak, or day-20 residual)
     alpha_i  effect of stack position i   (Top / Bottom)
@@ -30,6 +30,11 @@ so sums of squares are computed by the Type II method, in which each factor is a
 for the other -- the recommended choice for unbalanced data when the interaction is not
 significant (Langsrud, Stat. Comput. 2003, 13, 163-167).
 
+The position-by-chamber interaction is checked separately with the full model. The
+repository does not contain stack IDs in the embedded summary table, so this script
+performs the same exploratory sensor-level analysis reported in the manuscript; it is
+not a substitute for a blocked or paired stack-level sensitivity analysis.
+
 USAGE
     python3 anova_pressure.py                 # uses the embedded summary values
     python3 anova_pressure.py --from-raw      # re-derives them from 'Results - Compare.csv'
@@ -38,17 +43,23 @@ The --from-raw path shows exactly how each summary value was extracted from the 
 export, so the whole chain from raw record to reported F ratio can be checked.
 
 REQUIREMENTS
-    python >= 3.8, pandas, numpy, statsmodels   (pip install pandas numpy statsmodels)
+    python >= 3.8, pandas, numpy.
+    statsmodels is optional: when installed, it is used for the ANOVA table; otherwise
+    the script falls back to explicit least-squares Type II calculations.
 
 DATA
     'Results - Compare.csv' -- the export of the main trial: 979 records at 30-minute
     intervals spanning 489 h (20.4 days), 11 sensors, each contributing a temperature
     and a pressure column. Column indices are given in SENSORS below.
+    This repository currently contains the embedded per-sensor summary values below,
+    but not the raw logger export. The --from-raw path therefore requires adding that
+    CSV file to the working directory.
 
 Author: K. Mehravar.  Licence: CC BY 4.0, as for the article.
 """
 
 import argparse
+import math
 import sys
 
 import numpy as np
@@ -134,10 +145,133 @@ def extract_summary(csv_path=CSV_PATH):
     return pd.DataFrame(rows, columns=["sensor", "position", "chamber", "peak_dP", "dP_day20"])
 
 
+def _fit_lm(data, response, terms):
+    """Least-squares fit for the small two-factor models used below."""
+    cols = [np.ones(len(data))]
+    if "position" in terms:
+        cols.append((data["position"].values == "Top").astype(float))
+    if "chamber" in terms:
+        cols.append((data["chamber"].values == "50").astype(float))
+    if "interaction" in terms:
+        cols.append(
+            ((data["position"].values == "Top") & (data["chamber"].values == "50")).astype(float)
+        )
+    x = np.column_stack(cols)
+    y = data[response].values.astype(float)
+    beta = np.linalg.lstsq(x, y, rcond=None)[0]
+    residuals = y - x @ beta
+    rank = np.linalg.matrix_rank(x)
+    sse = float(residuals @ residuals)
+    return {"beta": beta, "x": x, "residuals": residuals, "sse": sse, "df": len(y) - rank}
+
+
+def _f_survival(f_value, df_num, df_den):
+    """Survival function for F(df_num, df_den), avoiding a hard SciPy dependency."""
+    if not np.isfinite(f_value) or f_value <= 0:
+        return 1.0
+    a = df_num / 2.0
+    b = df_den / 2.0
+    log_beta = math.lgamma(a) + math.lgamma(b) - math.lgamma(a + b)
+    scale = df_num / df_den
+
+    def pdf(x):
+        if x <= 0:
+            return 0.0
+        return math.exp(
+            a * math.log(scale)
+            + (a - 1.0) * math.log(x)
+            - (a + b) * math.log1p(scale * x)
+            - log_beta
+        )
+
+    def simpson(fun, left, right):
+        mid = (left + right) / 2.0
+        return (right - left) * (fun(left) + 4.0 * fun(mid) + fun(right)) / 6.0
+
+    def adaptive(fun, left, right, eps, whole, depth):
+        mid = (left + right) / 2.0
+        left_area = simpson(fun, left, mid)
+        right_area = simpson(fun, mid, right)
+        if depth <= 0 or abs(left_area + right_area - whole) <= 15.0 * eps:
+            return left_area + right_area + (left_area + right_area - whole) / 15.0
+        return adaptive(fun, left, mid, eps / 2.0, left_area, depth - 1) + adaptive(
+            fun, mid, right, eps / 2.0, right_area, depth - 1
+        )
+
+    cdf = adaptive(pdf, 0.0, float(f_value), 1e-10, simpson(pdf, 0.0, float(f_value)), 30)
+    return max(0.0, min(1.0, 1.0 - cdf))
+
+
+def _type2_anova(data, response):
+    """Compute Type II tests for the additive two-factor model."""
+    additive = _fit_lm(data, response, ["position", "chamber"])
+    no_position = _fit_lm(data, response, ["chamber"])
+    no_chamber = _fit_lm(data, response, ["position"])
+    full = _fit_lm(data, response, ["position", "chamber", "interaction"])
+    mse = additive["sse"] / additive["df"]
+
+    rows = []
+    for label, reduced in [("C(position)", no_position), ("C(chamber)", no_chamber)]:
+        ss = reduced["sse"] - additive["sse"]
+        f_value = ss / mse
+        rows.append((label, ss, 1, f_value, _f_survival(f_value, 1, additive["df"])))
+    rows.append(("Residual", additive["sse"], additive["df"], np.nan, np.nan))
+    table = pd.DataFrame(rows, columns=["factor", "sum_sq", "df", "F", "PR(>F)"]).set_index("factor")
+
+    ss_interaction = additive["sse"] - full["sse"]
+    mse_full = full["sse"] / full["df"]
+    f_interaction = ss_interaction / mse_full
+    p_interaction = _f_survival(f_interaction, 1, full["df"])
+    return table, additive, p_interaction
+
+
+def _t975(df):
+    """Two-sided 95% t critical values for the small residual dfs used here."""
+    table = {
+        1: 12.7062,
+        2: 4.3027,
+        3: 3.1824,
+        4: 2.7764,
+        5: 2.5706,
+        6: 2.4469,
+        7: 2.3646,
+        8: 2.3060,
+        9: 2.2622,
+        10: 2.2281,
+        11: 2.2010,
+        12: 2.1788,
+        13: 2.1604,
+        14: 2.1448,
+        15: 2.1314,
+        16: 2.1199,
+        17: 2.1098,
+        18: 2.1009,
+        19: 2.0930,
+        20: 2.0860,
+    }
+    return table.get(int(df), 1.96)
+
+
+def _adjusted_contrasts(data, response):
+    """Model-adjusted contrasts from y ~ position + chamber."""
+    fit = _fit_lm(data, response, ["position", "chamber"])
+    xtx_inv = np.linalg.inv(fit["x"].T @ fit["x"])
+    mse = fit["sse"] / fit["df"]
+    tcrit = _t975(fit["df"])
+    contrasts = [
+        ("bottom - top", np.array([0.0, -1.0, 0.0])),
+        ("nominal 50 - 19 degC", np.array([0.0, 0.0, 1.0])),
+    ]
+    rows = []
+    for label, c in contrasts:
+        estimate = float(c @ fit["beta"])
+        se = math.sqrt(float(mse * c @ xtx_inv @ c))
+        rows.append((label, estimate, estimate - tcrit * se, estimate + tcrit * se))
+    return rows
+
+
 def two_way_anova(data, response, label):
     """Fit y ~ position + chamber (Type II SS) and report it; also test the interaction."""
-    import statsmodels.api as sm
-    import statsmodels.formula.api as smf
 
     print("=" * 78)
     print(label)
@@ -147,8 +281,19 @@ def two_way_anova(data, response, label):
     print("\ncell means (mbar):\n")
     print(cells.round(1).to_string())
 
-    additive = smf.ols("%s ~ C(position) + C(chamber)" % response, data=data).fit()
-    table = sm.stats.anova_lm(additive, typ=2)
+    try:
+        import statsmodels.api as sm
+        import statsmodels.formula.api as smf
+
+        additive = smf.ols("%s ~ C(position) + C(chamber)" % response, data=data).fit()
+        table = sm.stats.anova_lm(additive, typ=2)
+        full = smf.ols("%s ~ C(position) * C(chamber)" % response, data=data).fit()
+        inter = sm.stats.anova_lm(full, typ=2)
+        interaction_p = inter.loc["C(position):C(chamber)", "PR(>F)"]
+    except ModuleNotFoundError:
+        print("\n(statsmodels not installed; using explicit least-squares Type II calculations)\n")
+        table, additive, interaction_p = _type2_anova(data, response)
+
     print("\ntwo-way ANOVA, Type II sums of squares (additive model):\n")
     print(table.round(4).to_string())
 
@@ -158,18 +303,18 @@ def two_way_anova(data, response, label):
         df_den = int(table.loc["Residual", "df"])
         print("\n  %-9s SS = %7.1f mbar^2   F(%d,%d) = %.2f   p = %.3f"
               % (name, ss, df_num, df_den, table.loc[factor, "F"], table.loc[factor, "PR(>F)"]))
-    print("\n  total SS  = %.1f mbar^2 (residual %.1f)"
-          % (table["sum_sq"].sum(), table.loc["Residual", "sum_sq"]))
+    corrected_total_ss = float(((data[response] - data[response].mean()) ** 2).sum())
+    print("\n  corrected total SS = %.1f mbar^2 (residual %.1f)"
+          % (corrected_total_ss, table.loc["Residual", "sum_sq"]))
 
-    full = smf.ols("%s ~ C(position) * C(chamber)" % response, data=data).fit()
-    inter = sm.stats.anova_lm(full, typ=2)
-    key = "C(position):C(chamber)"
     print("  interaction p = %.3f  (not significant -> the additive model above is reported)"
-          % inter.loc[key, "PR(>F)"])
+          % interaction_p)
 
-    top = data[data.position == "Top"][response].mean()
-    bot = data[data.position == "Bottom"][response].mean()
-    print("  bottom - top = %+.1f mbar (pooled over both chambers)\n" % (bot - top))
+    print("\n  adjusted effects from the additive model:")
+    for effect, estimate, lower, upper in _adjusted_contrasts(data, response):
+        print("    %-22s %+.1f mbar   95%% CI %+.1f to %+.1f"
+              % (effect, estimate, lower, upper))
+    print()
     return table
 
 
