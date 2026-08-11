@@ -1,0 +1,5 @@
+sensor,position,source_temperature_column,source_pressure_column,power_on,stack
+V26,Top,V26_TOP_T,V26_TOP_P,2024-12-16 16:10,single high-temperature three-box stack
+V27,Bottom,V27_BOT_T,V27_BOT_P,2024-12-16 16:10,single high-temperature three-box stack
+V62,Top,V62_TOP_T,V62_TOP_P,2024-12-16 16:20,single high-temperature three-box stack
+V64,Bottom,V64_BOT_T,V64_BOT_P,2024-12-16 16:20,single high-temperature three-box stack

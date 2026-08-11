@@ -1,145 +1,183 @@
-# Analysis Verification Report
+# Analysis Verification
 
-Revision branch: `major-revision-r2-r3`
+Second-pass verification after merging commit `989b7f4db1d9cfc2c81b0d4cb9c456ee1502c168`.
 
-## Repository Data Inspected
+## Commands
 
-Files inspected:
+Run from the repository root:
 
-- `sent-foods-4487055.docx` and `sent-foods-4487055.pdf`: reviewed submitted manuscript.
-- `foods-4411772_revised_v3.docx`: older revision material.
-- `comment-R2.txt` and `comment-R3.txt`: current reviewer reports.
-- `Response_to_Reviewers.docx`: previous response letter, replaced in this revision with the current R2/R3 response.
-- `Nota_per_Nicola_acido_lattico.docx`: internal lactic-acid note.
-- `anova_pressure.py`: pressure-analysis script.
-- Embedded figures and tables in the manuscript DOCX files.
-
-No raw CSV, XLSX, raw chemical replicate file, plotting script, chamber log, barometric record, or supplementary dataset is present in the repository. The pressure script expects `Results - Compare.csv`, but that file is absent.
-
-## Commands Run
-
-```powershell
-git status --short --branch
-rg --files
-Get-Content -Raw comment-R2.txt
-Get-Content -Raw comment-R3.txt
-Get-Content -Raw anova_pressure.py
-python -m compileall anova_pressure.py
+```bash
+python -m compileall anova_pressure.py reanalyse_raw_data.py
 python anova_pressure.py
 python anova_pressure.py --from-raw
-python -c "import pandas, numpy; print(pandas.__version__, numpy.__version__)"
-pdftotext -layout sent-foods-4487055.pdf -
+python reanalyse_raw_data.py
 ```
 
-DOCX text and table extraction was performed with `python-docx`.
+All commands completed successfully in this audit. `statsmodels` was not installed, so `anova_pressure.py` used its explicit least-squares Type II calculations.
 
-## Software Environment
+## Analyses Based On Raw Or Processed Workbook Data
 
-Verified locally:
+### Main Pressure Analysis
 
-- Python 3.12.10
-- pandas 3.0.3
-- numpy 2.4.6
-- python-docx available
-- statsmodels not installed
-- scipy not installed
+Source: `Results.xlsx`, sheet `Compare`.
 
-`anova_pressure.py` was updated so that it uses `statsmodels` when available and otherwise falls back to explicit least-squares Type II calculations using only NumPy/Pandas.
+Script: `anova_pressure.py --from-raw`; independently reproduced by `reanalyse_raw_data.py`.
 
-## Pressure Summary Values
+Statistical unit: one instrumented BiB sensor trace. The workbook restores sensor IDs and position/nominal chamber mapping, but it does not restore stack IDs or top-bottom pairings. The analysis therefore remains exploratory and sensor-level. It is not a replicated chamber-level test and not a paired stack-level analysis.
 
-The repository contains embedded per-sensor summary values in `anova_pressure.py`. They have also been exported unchanged to `pressure_summary_embedded.csv`.
+Baseline rule: median pressure for `t <= 0.02 d`. In `Results.xlsx`, the next time point after zero is `0.020833 d`; therefore this rule uses the time-zero pressure only.
 
-| Sensor | Position | Nominal chamber | Peak Delta P (mbar) | Day-20 Delta P (mbar) |
-|---|---|---:|---:|---:|
-| V50 | Top | 50 | 63.4638 | 33.5127 |
-| V53 | Top | 50 | 58.3335 | 32.5126 |
-| V71 | Top | 50 | 77.9051 | 60.2513 |
-| V52 | Bottom | 50 | 92.1697 | 55.9552 |
-| V56 | Bottom | 50 | 63.1891 | 17.0045 |
-| V70 | Bottom | 50 | 93.7639 | 43.7397 |
-| V55 | Top | 19 | 56.4339 | 36.1306 |
-| V57 | Top | 19 | 56.9113 | 38.1726 |
-| V58 | Top | 19 | 65.4962 | 50.7070 |
-| V51 | Bottom | 19 | 91.0728 | 62.5850 |
-| V59 | Bottom | 19 | 78.5783 | 52.3243 |
+Primary peak rule: maximum baseline-referred pressure change after the handling window (`t >= 0.21 d`) and within the 20-day storage window.
 
-## Reproduced Statistics from Embedded Data
+Day-20 rule: mean baseline-referred pressure change for `t >= 19.5 d` to `20.0 d`; 25 readings per usable sensor.
 
-Peak Delta P cell summaries:
+Per-sensor summaries are written to `pressure_summary_raw.csv`.
 
-| Nominal chamber | Position | n | Mean | SD |
-|---|---|---:|---:|---:|
-| 19 | Bottom | 2 | 84.8255 | 8.8349 |
-| 19 | Top | 3 | 59.6138 | 5.0999 |
-| 50 | Bottom | 3 | 83.0409 | 17.2106 |
-| 50 | Top | 3 | 66.5675 | 10.1482 |
+| Sensor | Position | Nominal chamber | Peak dP (mbar) | Peak hour | Day-20 dP (mbar) |
+|---|---|---:|---:|---:|---:|
+| V50 | Top | 50 degC | 63.4638 | 101.0 | 33.5127 |
+| V53 | Top | 50 degC | 58.3335 | 97.0 | 32.5126 |
+| V71 | Top | 50 degC | 77.9051 | 97.0 | 60.2513 |
+| V52 | Bottom | 50 degC | 92.1697 | 138.0 | 55.9552 |
+| V56 | Bottom | 50 degC | 63.1891 | 96.0 | 17.0045 |
+| V70 | Bottom | 50 degC | 93.7639 | 138.5 | 43.7397 |
+| V55 | Top | 19 degC | 56.4339 | 85.0 | 36.1306 |
+| V57 | Top | 19 degC | 56.9113 | 88.0 | 38.1726 |
+| V58 | Top | 19 degC | 65.4962 | 85.0 | 50.7070 |
+| V51 | Bottom | 19 degC | 91.0728 | 86.0 | 62.5850 |
+| V59 | Bottom | 19 degC | 78.5783 | 86.0 | 52.3243 |
 
-Peak Delta P Type II ANOVA:
+The raw-workbook extraction matches the embedded summary values to 0.0000 mbar.
 
-- Position: SS = 1118.9144, F(1,8) = 9.1399, p = 0.0165.
-- Nominal chamber condition: SS = 25.4467, F(1,8) = 0.2079, p = 0.6606.
-- Interaction: p = 0.5552.
-- Corrected total SS = 2169.3731.
-- Adjusted bottom-minus-top effect = 20.3571 mbar, approximate 95% CI = 4.8295 to 35.8848 mbar.
-- Adjusted nominal 50-minus-19 degC chamber effect = 3.0700 mbar, approximate 95% CI = -12.4577 to 18.5976 mbar.
+### Pressure ANOVA
 
-Day-20 Delta P cell summaries:
+Source: `Results.xlsx`; derived file `pressure_anova_raw.csv`.
 
-| Nominal chamber | Position | n | Mean | SD |
-|---|---|---:|---:|---:|
-| 19 | Bottom | 2 | 57.4546 | 7.2554 |
-| 19 | Top | 3 | 41.6701 | 7.8925 |
-| 50 | Bottom | 3 | 38.8998 | 19.9213 |
-| 50 | Top | 3 | 42.0922 | 15.7342 |
+Model: additive two-factor model with position (`Top`, `Bottom`) and nominal chamber condition (`19`, `50`). The interaction was checked separately. Type II sums of squares were retained because the cell counts are unbalanced and the interaction was not statistically significant.
 
-Day-20 Delta P Type II ANOVA:
+Cell sizes: nominal 50 top n=3, nominal 50 bottom n=3, nominal 19 top n=3, nominal 19 bottom n=2.
 
-- Position: SS = 74.1869, F(1,8) = 0.3479, p = 0.5716.
-- Nominal chamber condition: SS = 173.3223, F(1,8) = 0.8127, p = 0.3937.
-- Interaction: p = 0.3198.
-- Corrected total SS = 1933.2553.
-- Adjusted bottom-minus-top effect = 5.2418 mbar, approximate 95% CI = -15.2529 to 25.7366 mbar.
-- Adjusted nominal 50-minus-19 degC chamber effect = -8.0121 mbar, approximate 95% CI = -28.5068 to 12.4827 mbar.
+Peak dP:
 
-The headline pressure statistics in the submitted manuscript are reproduced from the embedded values.
+- Position: F(1,8) = 9.1399, p = 0.0165.
+- Nominal chamber condition: F(1,8) = 0.2079, p = 0.6606.
+- Position by chamber interaction: F(1,7) = 0.3838, p = 0.5552.
+- Adjusted bottom-minus-top effect: +20.4 mbar, 95% CI +4.8 to +35.9 mbar.
+- Adjusted nominal 50-minus-19 effect: +3.1 mbar, 95% CI -12.5 to +18.6 mbar.
 
-## Discrepancies and Cautions
+Day-20 dP:
 
-- Raw extraction cannot be verified because `Results - Compare.csv` is absent.
-- `python anova_pressure.py --from-raw` fails with the expected missing-file error.
-- Sensor-column mapping, baseline extraction, first-five-hour exclusion, peak extraction and day-20 averaging are described in the script but cannot be audited from raw records.
-- The original wording that Type II sums of squares "account for" a share of total variability was not statistically clean in an unbalanced design. The revised manuscript reports Type II tests and effect estimates instead.
-- The embedded data lack stack IDs and stack height. A paired or stack-level sensitivity analysis cannot be reported unless the sensor-to-stack mapping is restored. The revised manuscript therefore labels the pressure ANOVA as exploratory and sensor-level.
-- The chemical table and internal lactic-acid note contain a repository inconsistency (`0.29 +/- 0.02` versus `0.29 +/- 0.20` g/L for lactic acid in the nominal 50 degC chamber). Raw chemical replicate data are absent. The revised manuscript uses the conservative `0.29 +/- 0.20` g/L value, assigns the same significance letter to both lactic-acid means and treats lactic acid descriptively.
-- `Nota_per_Nicola_acido_lattico.docx` is a stale internal note and is not part of the revised submission package. It still contains stronger lactic-acid and chamber-behaviour interpretations that were rejected during the final integrity audit.
+- Position: F(1,8) = 0.3479, p = 0.5716.
+- Nominal chamber condition: F(1,8) = 0.8127, p = 0.3937.
+- Position by chamber interaction: F(1,7) = 1.1463, p = 0.3199.
+- Adjusted bottom-minus-top effect: +5.2 mbar, 95% CI -15.3 to +25.7 mbar.
+- Adjusted nominal 50-minus-19 effect: -8.0 mbar, 95% CI -28.5 to +12.5 mbar.
 
-## First-Five-Hour Exclusion
+Interpretation: bottom-position sensors showed a larger post-handling peak dP in this small sensor-level dataset. Lack of statistical significance for nominal chamber condition or day-20 factors must be read only as no statistically detectable difference under this design.
 
-The script excludes the first approximately five hours (`HANDLING_END_D = 0.21`) from peak extraction. The manuscript figure shows this interval includes transport, filling-line and stack-assembly disturbances. Reviewer 2 correctly noted that such disturbances may be relevant to real logistics.
+### First-Five-Hour Sensitivity
 
-A full-record sensitivity analysis cannot be recomputed from this repository because the raw time series is absent. The revised manuscript therefore:
+Source: `Results.xlsx`; derived file `early_transient_sensitivity.csv`.
 
-- retains the post-handling window as the primary analysis;
-- explains why the interval was excluded;
-- acknowledges that early transients may affect generalisability;
-- states that the sensitivity analysis requires restoration of the raw logger export.
+Question: would including the first five hours alter the primary pressure-peak endpoint?
 
-## Reproducibility Improvements Made
+Result: no. For every usable main-trial sensor, the full-record maximum dP equals the post-handling maximum dP. All primary peaks occur after 5 h, between 85.0 and 138.5 h.
 
-- `anova_pressure.py` now runs without `statsmodels`.
-- `anova_pressure.py` now prints model-adjusted position and nominal-chamber contrasts with approximate 95% CIs.
-- `pressure_summary_embedded.csv` records the embedded per-sensor pressure summaries.
-- `requirements.txt` lists the packages needed for analysis/document generation.
-- The revised manuscript clarifies baseline-referred Delta P, nominal chamber condition, missing sensor, unbalanced cells, low power and raw-data availability limitations.
-- The pressure analysis is described as exploratory sensor-level inference because the embedded pressure summaries do not retain stack IDs for a paired or blocked stack-level sensitivity analysis.
-- The chemical interpretation avoids temporal "loss/increase" language unless a baseline is documented; lower/higher values are reported as after-20-day between-condition differences.
+Early-window maxima varied by sensor:
 
-## Reproducibility Commands
+- Highest early dP values among top nominal 19 sensors were already close to their later maxima (V55 54.2 mbar at 1 h, V57 56.6 mbar at 1 h, V58 65.2 mbar at 1 h).
+- Nominal 50 top early dP values were much lower than later maxima (6.7 to 10.9 mbar).
+- Some bottom sensors had substantial early values, especially V56 (52.8 mbar at 1 h), but later peaks remained larger.
 
-```powershell
-python anova_pressure.py
-python anova_pressure.py --from-raw
-```
+Caveat: the first-five-hour temperature/pressure block in `Results.xlsx` contains duplicated rows, so early transient shape should not be overinterpreted as a high-fidelity exposure record. The pressure peak sensitivity is still useful because the global maxima are all later than the duplicated block.
 
-The first command runs from embedded values. The second requires adding `Results - Compare.csv` to the repository root.
+### Main-Trial Thermal Exposure
+
+Source: `Results.xlsx`; derived files `thermal_summary_main_sensors.csv` and `thermal_summary_main_groups.csv`.
+
+Group means:
+
+| Nominal chamber | Position | n | Initial temp mean +/- SD (degC) | 5 h temp mean +/- SD (degC) | 16 h temp mean +/- SD (degC) | Late 19.5-20 d temp mean +/- SD (degC) | Post-handling max mean +/- SD (degC) |
+|---|---|---:|---:|---:|---:|---:|---:|
+| 19 degC | Bottom | 2 | 25.35 +/- 0.35 | 15.05 +/- 3.46 | 17.85 +/- 0.21 | 22.84 +/- 0.30 | 23.65 +/- 0.21 |
+| 19 degC | Top | 3 | 25.27 +/- 1.20 | 12.97 +/- 0.15 | 18.23 +/- 0.81 | 23.50 +/- 0.21 | 24.83 +/- 0.21 |
+| 50 degC | Bottom | 3 | 28.77 +/- 6.60 | 12.77 +/- 0.50 | 16.33 +/- 0.75 | 26.08 +/- 0.23 | 26.57 +/- 0.12 |
+| 50 degC | Top | 3 | 28.17 +/- 4.66 | 21.40 +/- 2.25 | 19.73 +/- 1.16 | 34.18 +/- 0.36 | 34.83 +/- 0.42 |
+
+Interpretation: the main nominal 50 degC trial did not expose the wine to 50 degC. The warmest main-trial package sensors reached approximately 35.3 degC individually and 34.8 degC as a top-position group maximum. The nominal 19 degC chamber packages stabilised above the set point, near 23 degC.
+
+### Verification Trial
+
+Source: `Stack testing high temperature.xlsx`, sheet `Compare`; derived file `verification_summary_raw.csv`.
+
+Statistical unit: four sensors in one three-box verification stack; two top and two bottom sensors. This restores raw verification traces but not independent stack replication.
+
+Temperature maxima:
+
+- V26 top: 48.8 degC at day 4.27; record stops at 4.35 d.
+- V62 top: 47.7 degC at day 10.22.
+- V27 bottom: 45.0 degC at day 9.45.
+- V64 bottom: 47.6 degC at day 10.35.
+
+No in-bag verification sensor reached 50 degC.
+
+Late day 14-15 temperatures:
+
+- V62 top: 47.62 degC; V26 unavailable after day 4.35.
+- V27 bottom: 44.97 degC.
+- V64 bottom: 47.54 degC.
+
+Pressure dP from each sensor's first valid pressure:
+
+- V26 top: peak +26.52 mbar at day 1.47; minimum -3.84 mbar at day 3.55.
+- V62 top: peak +9.58 mbar at day 0.26; minimum -27.19 mbar at day 6.32.
+- V27 bottom: peak +15.18 mbar at day 0.03; minimum -14.87 mbar at day 6.34.
+- V64 bottom: peak +15.65 mbar at day 0.25; minimum -21.79 mbar at day 6.35.
+
+Main-vs-verification late thermal discrepancy:
+
+- Top: verification late available top sensor 47.62 degC versus main nominal 50 top 34.18 degC, difference +13.44 degC.
+- Bottom: verification bottom mean about 46.26 degC versus main nominal 50 bottom 26.08 degC, difference about +20.18 degC.
+
+The difference is consistent with scale, chamber loading, airflow, geometry or chamber-performance differences, but the files do not identify a single cause.
+
+## Analyses Based Only On Summary Data
+
+### Chemistry
+
+Raw chemical replicate data remain absent. `Results.xlsx` contains no chemical sheet, hidden sheet, defined names or chemistry table. The chemical values therefore remain summary-only values from Table 2 / manuscript records.
+
+The repository contains an inconsistency in lactic-acid SD for wine from the nominal 50 degC chamber: the old submitted Table 2 reports `0.29 +/- 0.02 g/L`, while the manuscript text and first-pass revision record use `0.29 +/- 0.20 g/L`. Without raw replicates, the conservative revision keeps `0.29 +/- 0.20 g/L` and treats lactic acid descriptively. Microbiological activity cannot be ruled out because no viable cell counts or microbiological assays are available.
+
+Summary-only chemical values used in the manuscript:
+
+- Lactic acid: 0.16 +/- 0.05 g/L (nominal 19) vs 0.29 +/- 0.20 g/L (nominal 50), descriptive.
+- Malic acid: 1.1 +/- 0.23 g/L vs 1.0 +/- 0.16 g/L.
+- Volatile acidity: 0.30 +/- 0.02 g/L vs 0.39 +/- 0.03 g/L.
+- Total SO2: 50 +/- 5.5 mg/L vs 25 +/- 8.2 mg/L.
+- Free SO2: 31 +/- 2.5 mg/L vs 16 +/- 1.8 mg/L.
+
+These values are not position-resolved and cannot be linked directly to top/bottom pressure observations.
+
+## Remaining Statistical Limitations
+
+- One physical chamber per nominal set point: chamber identity and nominal chamber condition are confounded.
+- Main-trial pressure analysis has 11 usable sensor traces, one missing bottom-position trace and an unbalanced n=2 cell.
+- Main-trial workbook does not retain stack IDs, preventing paired or blocked stack-level reanalysis.
+- Time-series timestamps are not treated as replicates; the ANOVA uses one or two derived summaries per sensor.
+- Verification trial has raw traces but only one stack and cannot establish population-level position effects.
+- Chemistry remains summary-only and not position-resolved.
+- No microbiology, sensory follow-up, shelf-life test, chamber airflow/volume/fan metadata, barometric reference or cost data were found.
+
+## Manuscript Statistics Traceability
+
+| Manuscript statistic | Data source | Script / file | Unit | Status |
+|---|---|---|---|---|
+| Peak dP means and SDs | `Results.xlsx` | `pressure_summary_raw.csv` | Sensor trace | Reproduced |
+| Day-20 dP means and SDs | `Results.xlsx` | `pressure_summary_raw.csv` | Sensor trace | Reproduced |
+| Peak dP ANOVA F/p | `Results.xlsx` | `anova_pressure.py --from-raw`; `pressure_anova_raw.csv` | Sensor trace | Reproduced |
+| Day-20 dP ANOVA F/p | `Results.xlsx` | `anova_pressure.py --from-raw`; `pressure_anova_raw.csv` | Sensor trace | Reproduced |
+| First-five-hour pressure sensitivity | `Results.xlsx` | `early_transient_sensitivity.csv` | Sensor trace | New second-pass analysis |
+| Main actual in-bag temperatures | `Results.xlsx` | `thermal_summary_main_groups.csv` | Sensor trace | Reproduced from new data |
+| Verification temperature and dP | `Stack testing high temperature.xlsx` | `verification_summary_raw.csv` | Sensor trace within one stack | Reproduced from new data |
+| Chemical means and SDs | Manuscript Table 2 only | No raw replicate data | Bulk condition summary | Summary-only; not independently reproducible |

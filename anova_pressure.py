@@ -9,7 +9,7 @@ Supporting code for the revised manuscript:
 
 This script reproduces every statistic reported in Sections 2.4 and 3.2 of the paper:
 
-    peak DP (fourth day of testing)   position  F(1,8) = 9.14   p = 0.017
+    peak DP (post-handling window)    position  F(1,8) = 9.14   p = 0.017
                                       chamber   F(1,8) = 0.21   p = 0.66
                                       interaction              p = 0.56
     DP on the twentieth day           position  F(1,8) = 0.35   p = 0.57
@@ -31,29 +31,30 @@ for the other -- the recommended choice for unbalanced data when the interaction
 significant (Langsrud, Stat. Comput. 2003, 13, 163-167).
 
 The position-by-chamber interaction is checked separately with the full model. The
-repository does not contain stack IDs in the embedded summary table, so this script
-performs the same exploratory sensor-level analysis reported in the manuscript; it is
-not a substitute for a blocked or paired stack-level sensitivity analysis.
+repository now contains the main-trial workbook (Results.xlsx), but neither the
+workbook nor the embedded summary table preserves stack IDs for the individual sensors.
+This script therefore performs the same exploratory sensor-level analysis reported in
+the manuscript; it is not a substitute for a blocked or paired stack-level analysis.
 
 USAGE
     python3 anova_pressure.py                 # uses the embedded summary values
-    python3 anova_pressure.py --from-raw      # re-derives them from 'Results - Compare.csv'
+    python3 anova_pressure.py --from-raw      # re-derives them from Results.xlsx
+    python3 anova_pressure.py --from-raw --raw-path Results.xlsx
 
 The --from-raw path shows exactly how each summary value was extracted from the logger
 export, so the whole chain from raw record to reported F ratio can be checked.
 
 REQUIREMENTS
-    python >= 3.8, pandas, numpy.
+    python >= 3.8, pandas, numpy, openpyxl.
     statsmodels is optional: when installed, it is used for the ANOVA table; otherwise
     the script falls back to explicit least-squares Type II calculations.
 
 DATA
-    'Results - Compare.csv' -- the export of the main trial: 979 records at 30-minute
-    intervals spanning 489 h (20.4 days), 11 sensors, each contributing a temperature
-    and a pressure column. Column indices are given in SENSORS below.
-    This repository currently contains the embedded per-sensor summary values below,
-    but not the raw logger export. The --from-raw path therefore requires adding that
-    CSV file to the working directory.
+    Results.xlsx, sheet 'Compare' -- the processed main-trial logger workbook: 979
+    records at 30-minute intervals spanning 489 h (20.4 days), 11 sensors, each
+    contributing a temperature and a pressure column. Column indices are given in
+    SENSORS below. A CSV export with the same column order can also be supplied with
+    --raw-path, but Results.xlsx is the verified source in this repository.
 
 Author: K. Mehravar.  Licence: CC BY 4.0, as for the article.
 """
@@ -61,12 +62,13 @@ Author: K. Mehravar.  Licence: CC BY 4.0, as for the article.
 import argparse
 import math
 import sys
+from pathlib import Path
 
 import numpy as np
 import pandas as pd
 
 # --------------------------------------------------------------------------------------
-# Sensor map of 'Results - Compare.csv'.
+# Sensor map of Results.xlsx / sheet 'Compare'.
 # Column 0 = Time (Days), column 1 = Time (h); every sensor then contributes a
 # (temperature, pressure) pair of columns, in the order the file stores them.
 # --------------------------------------------------------------------------------------
@@ -85,9 +87,9 @@ SENSORS = [
     ("V58",  "Top",     "19",    22,    23),
 ]
 
-CSV_PATH = "Results - Compare.csv"
+RAW_PATH = "Results.xlsx"
 
-BASELINE_END_D = 0.02   # baseline = median pressure over the first 30 min
+BASELINE_END_D = 0.02   # in Results.xlsx, this selects only the time-zero reading
 HANDLING_END_D = 0.21   # first ~5 h = transport of the units + assembly into stacks
 STORAGE_END_D = 20.0    # end of the 20-day storage window
 DAY20_START_D = 19.5    # residual DP = mean over the last 12 h
@@ -115,18 +117,27 @@ EMBEDDED = pd.DataFrame(
 )
 
 
-def extract_summary(csv_path=CSV_PATH):
+def _read_raw_compare(raw_path):
+    """Read the main-trial Compare table from the verified workbook or a CSV export."""
+    path = Path(raw_path)
+    if path.suffix.lower() in {".xlsx", ".xlsm", ".xls"}:
+        return pd.read_excel(path, sheet_name="Compare", engine="openpyxl")
+    return pd.read_csv(path, decimal=",")
+
+
+def extract_summary(raw_path=RAW_PATH):
     """Derive the per-sensor summary values from the raw logger export.
 
     For every sensor:
-      1. baseline P0 = median pressure over the first 30 minutes;
+      1. baseline P0 = median pressure for t <= 0.02 d; in Results.xlsx this is the
+         time-zero pressure because the next record is at 0.020833 d;
       2. DP(t) = P(t) - P0, so the comparison rests on the change measured by a single
          device (stability +/-1 mbar/yr) rather than on agreement between devices, whose
          absolute accuracy is +/-1.5 mbar only at 20 degC between 300 and 1100 mbar;
       3. peak DP  = maximum of DP after the handling transient and within 20 days;
       4. day-20 DP = mean of DP over the last 12 hours of the window.
     """
-    df = pd.read_csv(csv_path, decimal=",")
+    df = _read_raw_compare(raw_path)
     t = pd.to_numeric(df.iloc[:, 0], errors="coerce")
     valid = t.notna()
     t = t[valid].values
@@ -321,17 +332,20 @@ def two_way_anova(data, response, label):
 def main():
     ap = argparse.ArgumentParser(description=__doc__.split("\n")[1])
     ap.add_argument("--from-raw", action="store_true",
-                    help="re-derive the summary values from '%s' instead of using the "
-                         "embedded copy" % CSV_PATH)
+                    help="re-derive the summary values from the main-trial workbook or "
+                         "CSV export instead of using the embedded copy")
+    ap.add_argument("--raw-path", default=RAW_PATH,
+                    help="main-trial workbook or CSV export to use with --from-raw "
+                         "(default: %(default)s)")
     args = ap.parse_args()
 
     if args.from_raw:
-        print("deriving summary values from %r ...\n" % CSV_PATH)
+        print("deriving summary values from %r ...\n" % args.raw_path)
         try:
-            data = extract_summary()
+            data = extract_summary(args.raw_path)
         except FileNotFoundError:
             sys.exit("error: %r not found. Run without --from-raw to use the embedded "
-                     "values." % CSV_PATH)
+                     "values." % args.raw_path)
         merged = EMBEDDED.merge(data, on=["sensor", "position", "chamber"],
                                 suffixes=("_published", "_recomputed"))
         drift = (merged.peak_dP_published - merged.peak_dP_recomputed).abs().max()
@@ -344,14 +358,15 @@ def main():
     print()
 
     two_way_anova(data, "peak_dP",
-                  "RESPONSE 1 -- peak DP, reached on the fourth day of the testing period")
+                  "RESPONSE 1 -- peak DP in the post-handling storage window")
     two_way_anova(data, "dP_day20",
                   "RESPONSE 2 -- residual DP on the twentieth day of testing")
 
     print("=" * 78)
     print("Note: the two chambers were set to 19 degC and 50 degC, but the wine in the")
-    print("hot chamber reached only 25-34 degC (Section 3.2); 'chamber' is therefore the")
-    print("nominal factor, not the temperature actually experienced by the wine.")
+    print("hot chamber reached about 26.1 degC at bottom sensors and 34.2 degC at top")
+    print("sensors late in storage (Section 3.2); 'chamber' is therefore the nominal")
+    print("factor, not the temperature actually experienced by the wine.")
     print("=" * 78)
 
 

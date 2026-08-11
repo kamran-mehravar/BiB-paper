@@ -1,0 +1,12 @@
+sensor,position,chamber,baseline_mbar,baseline_rule,peak_dP_mbar,peak_day,peak_hour,dP_day20_mbar,day20_n_readings
+V50,Top,50,1009.22479845736,median pressure for t <= 0.02 d; in this workbook this is the time-zero reading,63.46379195943007,4.208333333,100.999999992,33.51270241538007,25
+V53,Top,50,1015.55335211008,median pressure for t <= 0.02 d; in this workbook this is the time-zero reading,58.33348357303987,4.041666667,97.000000008,32.51255360415757,25
+V71,Top,50,1008.6878459926,median pressure for t <= 0.02 d; in this workbook this is the time-zero reading,77.90509528170003,4.041666667,97.000000008,60.25130072293316,25
+V51,Bottom,19,1008.64247851753,median pressure for t <= 0.02 d; in this workbook this is the time-zero reading,91.07280818232994,3.583333333,85.999999992,62.58497529899601,25
+V59,Bottom,19,1015.62715808376,median pressure for t <= 0.02 d; in this workbook this is the time-zero reading,78.57833009365993,3.583333333,85.999999992,52.32431427250156,25
+V52,Bottom,50,1009.15062848673,median pressure for t <= 0.02 d; in this workbook this is the time-zero reading,92.16972527410985,5.75,138.0,55.95520042272756,25
+V56,Bottom,50,1015.93306109536,median pressure for t <= 0.02 d; in this workbook this is the time-zero reading,63.18907858595003,4.0,96.0,17.004473698455985,25
+V70,Bottom,50,1009.95777099963,median pressure for t <= 0.02 d; in this workbook this is the time-zero reading,93.76393719814007,5.770833333,138.499999992,43.73974677113594,25
+V55,Top,19,1016.19764540068,median pressure for t <= 0.02 d; in this workbook this is the time-zero reading,56.43388492669999,3.541666667,85.000000008,36.130631730223996,25
+V57,Top,19,1015.23142291436,median pressure for t <= 0.02 d; in this workbook this is the time-zero reading,56.91133701876004,3.666666667,88.000000008,38.17255397247482,25
+V58,Top,19,1016.85849539072,median pressure for t <= 0.02 d; in this workbook this is the time-zero reading,65.49620208600004,3.541666667,85.000000008,50.706964823483595,25

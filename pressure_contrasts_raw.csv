@@ -1,0 +1,5 @@
+response,contrast,estimate_mbar,ci95_low_mbar,ci95_high_mbar,df,original_response
+response_value,bottom_minus_top,20.35714758334255,4.829525921470939,35.88476924521416,8,peak_dP_mbar
+response_value,nominal_50_minus_19,3.0699580922374103,-12.4576635696342,18.59757975410902,8,peak_dP_mbar
+response_value,bottom_minus_top,5.2418317064259,-15.25287404976425,25.73653746261605,8,dP_day20_mbar
+response_value,nominal_50_minus_19,-8.012074917713544,-28.506780673903695,12.482630838476606,8,dP_day20_mbar
