@@ -466,6 +466,27 @@ def style_axis(ax):
     ax.spines["right"].set_visible(False)
 
 
+def set_day_ticks(ax, ticks):
+    ax.set_xticks(ticks)
+    ax.set_xticklabels([str(int(t)) for t in ticks])
+
+
+def set_hour_ticks(ax, ticks):
+    ax.set_xticks(ticks)
+    ax.set_xticklabels([str(int(t)) for t in ticks])
+
+
+def add_phase_arrows(ax):
+    trans = ax.get_xaxis_transform()
+    arrow = dict(arrowstyle="<->", color="#777777", linewidth=1.0, shrinkA=0, shrinkB=0)
+    ax.annotate("pressure rise", xy=(0.35, 0.92), xytext=(4.4, 0.92),
+                xycoords=trans, textcoords=trans, ha="center", va="bottom",
+                color="#777777", fontsize=9, arrowprops=arrow)
+    ax.annotate("later decline", xy=(5.0, 0.92), xytext=(19.6, 0.92),
+                xycoords=trans, textcoords=trans, ha="center", va="bottom",
+                color="#777777", fontsize=9, arrowprops=arrow)
+
+
 def plot_mean_sd(ax, series: pd.DataFrame, value: str, chamber: str, position: str, color: str, label: str):
     subset = series[(series["chamber"] == chamber) & (series["position"] == position)]
     grouped = subset.groupby("time_days")[value].agg(["mean", "std"]).reset_index()
@@ -487,8 +508,8 @@ def regenerate_figures(main_df: pd.DataFrame, pressure_summary: pd.DataFrame, ve
     # Figure 3
     fig, axes = plt.subplots(2, 2, figsize=(15, 9.8), sharex=True)
     for col, chamber, title in [
-        (0, "50", "Nominal 50 °C chamber set point"),
-        (1, "19", "Nominal 19 °C chamber set point"),
+        (0, "50", "(A) Nominal 50 °C chamber set point"),
+        (1, "19", "(B) Nominal 19 °C chamber set point"),
     ]:
         axp = axes[0, col]
         axt = axes[1, col]
@@ -499,10 +520,17 @@ def regenerate_figures(main_df: pd.DataFrame, pressure_summary: pd.DataFrame, ve
         axt.axhline(float(chamber), color="#c7352d", linestyle="--", linewidth=1.5)
         axp.axvspan(0, 5.0 / 24.0, color="#eeeeee", alpha=0.9)
         axt.axvspan(0, 5.0 / 24.0, color="#eeeeee", alpha=0.9)
+        add_phase_arrows(axp)
+        axp.text(0.055, 0.18, "handling\n0-5 h", transform=axp.transAxes,
+                 color="#555555", fontsize=9, va="bottom",
+                 bbox=dict(facecolor="white", edgecolor="none", alpha=0.85, pad=1.5))
+        axt.text(19.7, float(chamber) + 0.25, f"{chamber} °C set point",
+                 color="#c7352d", fontsize=9, ha="right", va="bottom")
         axp.set_title(title, loc="left", fontsize=13, fontweight="bold")
         axp.set_ylabel("Pressure (mbar)")
         axt.set_ylabel("Temperature (°C)")
-        axt.set_xlabel("Time (days)")
+        axt.set_xlabel("Time after start (days)")
+        set_day_ticks(axt, [0, 5, 10, 15, 20])
         style_axis(axp)
         style_axis(axt)
         axp.set_xlim(-0.4, 20.4)
@@ -515,7 +543,7 @@ def regenerate_figures(main_df: pd.DataFrame, pressure_summary: pd.DataFrame, ve
     fig, axes = plt.subplots(2, 2, figsize=(15, 9.8), sharex=True)
     early = series[series["time_days"] <= (16.0 / 24.0)].copy()
     early["time_h"] = early["time_days"] * 24.0
-    for col, chamber, title in [(0, "50", "Nominal 50 °C chamber"), (1, "19", "Nominal 19 °C chamber")]:
+    for col, chamber, title in [(0, "50", "(A) Nominal 50 °C chamber"), (1, "19", "(B) Nominal 19 °C chamber")]:
         for row, value, ylabel in [(0, "pressure_mbar", "Pressure (mbar)"), (1, "temperature_degC", "Temperature (°C)")]:
             ax = axes[row, col]
             for pos, color, label in [("Top", amber, "Top BiB"), ("Bottom", blue, "Bottom BiB")]:
@@ -529,9 +557,16 @@ def regenerate_figures(main_df: pd.DataFrame, pressure_summary: pd.DataFrame, ve
             ax.axvspan(0, 5, color="#eeeeee", alpha=0.9)
             ax.set_ylabel(ylabel)
             style_axis(ax)
+            set_hour_ticks(ax, [0, 4, 8, 12, 16])
         axes[0, col].set_title(title, loc="left", fontsize=13, fontweight="bold")
         axes[1, col].set_xlabel("Time from start of monitoring (h)")
         axes[0, col].set_xlim(-0.5, 16.5)
+    axes[0, 0].annotate("transport and stacking\n(first ~5 h)",
+                        xy=(5.0, 0.67), xytext=(8.0, 0.78),
+                        xycoords=axes[0, 0].get_xaxis_transform(),
+                        textcoords=axes[0, 0].get_xaxis_transform(),
+                        arrowprops=dict(arrowstyle="->", color="#777777", linewidth=1.0),
+                        color="#777777", fontsize=9, ha="left", va="center")
     axes[0, 0].legend(loc="upper right", frameon=False)
     fig.tight_layout()
     fig.savefig("Figure4_transient_16h_FINAL.png", dpi=300)
@@ -539,7 +574,7 @@ def regenerate_figures(main_df: pd.DataFrame, pressure_summary: pd.DataFrame, ve
 
     # Figure 5
     fig, axes = plt.subplots(1, 2, figsize=(14, 6.4), sharey=False)
-    responses = [("peak_dP_mbar", "Post-handling peak ΔP"), ("dP_day20_mbar", "Day-20 ΔP")]
+    responses = [("peak_dP_mbar", "(A) Post-handling peak ΔP"), ("dP_day20_mbar", "(B) Day-20 ΔP")]
     x_positions = {"19": 0, "50": 1}
     offsets = {"Top": -0.12, "Bottom": 0.12}
     for ax, (response, title) in zip(axes, responses):
@@ -557,6 +592,9 @@ def regenerate_figures(main_df: pd.DataFrame, pressure_summary: pd.DataFrame, ve
         ax.set_title(title, loc="left", fontsize=13, fontweight="bold")
         ax.set_ylabel("ΔP from own baseline (mbar)")
         style_axis(ax)
+    axes[0].text(0.50, 0.96, "bottom > top at peak\nposition effect p=0.017",
+                 transform=axes[0].transAxes, fontsize=10, ha="center", va="top",
+                 bbox=dict(facecolor="white", edgecolor="#bbbbbb", boxstyle="round,pad=0.25", alpha=0.9))
     axes[0].text(0.04, 0.08, "position: F(1,8)=9.14, p=0.017\nchamber: F(1,8)=0.21, p=0.66",
                  transform=axes[0].transAxes, fontsize=10)
     axes[1].text(0.04, 0.08, "position: F(1,8)=0.35, p=0.57\nchamber: F(1,8)=0.81, p=0.39",
@@ -585,10 +623,17 @@ def regenerate_figures(main_df: pd.DataFrame, pressure_summary: pd.DataFrame, ve
     ax.plot(x, mean, color="#777777", linewidth=2.0, label="Nominal 19 °C reference")
     ax.fill_between(x, mean - sd, mean + sd, color="#999999", alpha=0.2)
     ax.axhline(50, color="#c7352d", linestyle="--", linewidth=1.5)
-    ax.set_title("Main trial: nominal 50 °C set point", loc="left", fontsize=13, fontweight="bold")
+    ax.set_title("(A) Main trial: nominal 50 °C set point", loc="left", fontsize=13, fontweight="bold")
     ax.set_ylabel("Temperature inside the bag (°C)")
-    ax.set_xlabel("Time (days)")
+    ax.set_xlabel("Time after start (days)")
     ax.set_xlim(-0.4, 20.4)
+    set_day_ticks(ax, [0, 5, 10, 15, 20])
+    ax.text(19.6, 50.4, "50 °C set point", color="#c7352d", fontsize=9, ha="right", va="bottom")
+    ax.text(18.6, 34.3, "top ~34 °C", color=amber, fontsize=10, fontweight="bold", ha="right")
+    ax.text(18.6, 26.2, "bottom ~26 °C", color=blue, fontsize=10, fontweight="bold", ha="right")
+    ax.annotate("set-point\nshortfall", xy=(12.0, 42.0), xytext=(12.0, 49.0),
+                ha="center", va="top", color="#c7352d", fontsize=9,
+                arrowprops=dict(arrowstyle="<->", color="#c7352d", linewidth=1.0))
     ax.legend(frameon=False, loc="lower right")
     style_axis(ax)
 
@@ -599,9 +644,11 @@ def regenerate_figures(main_df: pd.DataFrame, pressure_summary: pd.DataFrame, ve
         color = {"V26": green, "V62": purple, "V27": red, "V64": amber}[sid]
         ax.plot(subset["Time(days)"], subset[t_col], color=color, linewidth=2.0, label=f"{sid} {position.lower()}")
     ax.axhline(50, color="#c7352d", linestyle="--", linewidth=1.5)
-    ax.set_title("Verification trial: nominal 50 °C set point", loc="left", fontsize=13, fontweight="bold")
-    ax.set_xlabel("Time (days)")
+    ax.set_title("(B) Verification trial: nominal 50 °C set point", loc="left", fontsize=13, fontweight="bold")
+    ax.set_xlabel("Time after start (days)")
     ax.set_xlim(-0.4, 15.6)
+    set_day_ticks(ax, [0, 3, 6, 9, 12, 15])
+    ax.text(15.0, 50.4, "50 °C set point", color="#c7352d", fontsize=9, ha="right", va="bottom")
     ax.legend(frameon=False, loc="lower right")
     ax.text(0.03, 0.08, "No in-bag sensor reached 50 °C", transform=ax.transAxes, color="#555555")
     style_axis(ax)
@@ -622,12 +669,23 @@ def regenerate_figures(main_df: pd.DataFrame, pressure_summary: pd.DataFrame, ve
     axes[1].axhline(50, color="#c7352d", linestyle="--", linewidth=1.5)
     axes[0].set_ylabel("ΔP from own baseline (mbar)")
     axes[1].set_ylabel("Temperature (°C)")
-    axes[1].set_xlabel("Time (days)")
-    axes[0].set_title("Verification trial pressure", loc="left", fontsize=13, fontweight="bold")
-    axes[1].set_title("Verification trial temperature", loc="left", fontsize=13, fontweight="bold")
+    axes[1].set_xlabel("Time after start (days)")
+    axes[0].set_title("(A) Verification trial pressure", loc="left", fontsize=13, fontweight="bold")
+    axes[1].set_title("(B) Verification trial temperature", loc="left", fontsize=13, fontweight="bold")
     for ax in axes:
         style_axis(ax)
         ax.set_xlim(-0.3, 15.3)
+        set_day_ticks(ax, [0, 3, 6, 9, 12, 15])
+    axes[0].annotate("V26 stops\nday 4.35", xy=(4.35, 5.0), xytext=(5.2, 20.0),
+                     arrowprops=dict(arrowstyle="->", color="#777777", linewidth=1.0),
+                     color="#777777", fontsize=9, ha="left")
+    axes[0].annotate("common dip\nnear day 6", xy=(6.2, -25.0), xytext=(7.8, -11.0),
+                     arrowprops=dict(arrowstyle="->", color="#777777", linewidth=1.0),
+                     color="#555555", fontsize=9, ha="left",
+                     bbox=dict(facecolor="white", edgecolor="#bbbbbb", boxstyle="round,pad=0.25", alpha=0.88))
+    axes[1].text(15.0, 50.5, "50 °C set point", color="#c7352d", fontsize=9, ha="right", va="bottom")
+    axes[1].text(0.03, 0.08, "No in-bag sensor reached 50 °C",
+                 transform=axes[1].transAxes, color="#555555", fontsize=9)
     axes[0].legend(frameon=False, loc="upper right", ncol=4)
     fig.tight_layout()
     fig.savefig("Figure7_verification_trial_FINAL.png", dpi=300)
