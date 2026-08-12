@@ -40,6 +40,15 @@ Use only these final standalone figure files if the portal requests separate fig
 
 See `Manuscripts/FIGURE_INSERTION_GUIDE.md` for exact placement and final captions.
 
+### 6. Optional Supplementary Material
+
+If the journal portal allows supplementary files, upload:
+
+- `Supplementary/Supplementary_Figure_S1_common_mode_diagnostic.svg`
+- `Supplementary/README_SUPPLEMENTARY.md`
+
+Supplementary Figure S1 documents the common-mode pressure diagnostic used to support the exploratory pressure interpretation. It is supplementary support for the reviewer response, not a replacement for Figures 3–7 in the main manuscript.
+
 ## Do Not Upload Unless Requested
 
 - Raw Excel files should not normally be uploaded unless the journal specifically requests source data.
@@ -56,6 +65,7 @@ See `Manuscripts/FIGURE_INSERTION_GUIDE.md` for exact placement and final captio
 - Figures 3-7 in the package are the `_FINAL.png` versions only.
 - Programmatic inspection found that the current package manuscripts already embed byte-identical `_FINAL.png` images for Figures 3-7.
 - Manual figure replacement is not required unless Word displays a problem or you choose to reinsert figures manually.
+- Supplementary Figure S1 is provided as an optional reviewer-support file for the common-mode pressure diagnostic.
 
 ## Manual checks before upload
 
@@ -72,3 +82,4 @@ See `Manuscripts/FIGURE_INSERTION_GUIDE.md` for exact placement and final captio
 - [ ] Confirm clean manuscript has no yellow highlighting.
 - [ ] Confirm manuscript title is identical across manuscript and reviewer responses.
 - [ ] Confirm obsolete manuscripts/figures are not selected for upload.
+- [ ] If supplementary files are allowed, confirm Supplementary Figure S1 and its README are selected together.
