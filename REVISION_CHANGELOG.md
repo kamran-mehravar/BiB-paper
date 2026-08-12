@@ -47,7 +47,7 @@ Major revision for Reviewer 2 and Reviewer 3, updated after second-pass integrat
 
 ## Chemistry
 
-- Confirmed that raw chemical replicate data remain absent after inspection of the new workbooks.
+- Confirmed that raw chemical replicate data remain absent after inspection of the available original workbooks.
 - Downgraded the lactic-acid interpretation: malolactic fermentation is not supported by the reported malic-acid summary but cannot be ruled out without microbiology and sensitivity data.
 - Restored `0.29 +/- 0.02 g/L` as the traceable lactic-acid value from the originally submitted Table 2; the alternative `0.29 +/- 0.20 g/L` appears only in later revision/note material and has no primary-data support.
 - Removed unsupported exclusion of residual microbial activity.
@@ -82,7 +82,7 @@ Major revision for Reviewer 2 and Reviewer 3, updated after second-pass integrat
 
 ## Limitations
 
-- Retained limitations that remain true after new-data inspection:
+- Retained limitations that remain true after original-record inspection:
   - small sample size and missing sensor;
   - unbalanced pressure design;
   - unreplicated chamber factor;
@@ -101,6 +101,15 @@ Major revision for Reviewer 2 and Reviewer 3, updated after second-pass integrat
 
 - Rebuilt `reviewer_resolution_matrix.md` in the required second-pass format.
 - Created `REVIEWER_DRIVEN_CHANGES.md` to document removed or materially weakened claims.
-- Updated `analysis_verification.md` to distinguish raw-workbook pressure/temperature analyses from summary-only chemistry.
+- Updated `analysis_verification.md` to distinguish raw-workbook pressure/temperature analyses from author-approved summary chemistry.
 - Updated `Response_to_Reviewers_R2_R3.md` and regenerated `Response_to_Reviewers.docx`.
 - Created clean and highlighted final manuscript DOCX files.
+
+## Final Clarity Compression
+
+- Rewrote the Abstract into a shorter finding-first structure without changing numerical results.
+- Defined C19 and C50 as chamber set-point labels and used them to reduce repeated "nominal" wording.
+- Removed manuscript-level editorial residue about historical pressure-threshold code and the untraceable alternative lactic-acid SD.
+- Consolidated repeated caveats into Limitations and shortened Results/captions.
+- Retained the exploratory pressure/common-mode interpretation and the author-approved Table 2 chemistry markers.
+- Checked citation order after compression and renumbered existing references accordingly.

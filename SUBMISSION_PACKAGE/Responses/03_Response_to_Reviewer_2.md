@@ -2,7 +2,7 @@
 
 **Manuscript:** "In-Bag Pressure and Temperature Monitoring of Palletised 3-L Bag-in-Box Wine under Static Chamber Conditions"
 
-We thank Reviewer 2 for the detailed and constructive assessment. In response to the reviewer comments, we undertook a comprehensive re-examination of the original experimental records and revised the manuscript accordingly. This included re-analysis of the main-trial pressure and temperature time-series, an internal common-mode pressure diagnostic, a sensitivity analysis of the initial handling period, a more detailed examination of the verification trial, and revision of Figures 3-7 to ensure that nominal chamber set points are clearly distinguished from measured in-bag temperatures. These analyses improve the transparency and traceability of the reported results but do not alter the underlying experimental design or its limitations.
+We thank Reviewer 2 for the detailed and constructive assessment. In response to the reviewer comments, we undertook a comprehensive re-examination of the original experimental records and revised the manuscript accordingly. This included re-analysis of the main-trial pressure and temperature time-series, an internal common-mode pressure diagnostic, a sensitivity analysis of the initial handling period, a more detailed examination of the verification trial, and revision of Figures 3-7 to ensure that chamber set-point labels are clearly distinguished from measured in-bag temperatures. These analyses improve the transparency and traceability of the reported results but do not alter the underlying experimental design or its limitations.
 
 ## R2.1 Main trial did not achieve 50 degC
 
@@ -12,11 +12,11 @@ The chamber was set at 50 degC, but the wine experienced about 25-34 degC; this 
 
 ### Response
 
-We agree. The revised manuscript no longer treats the main trial as actual 50 degC wine exposure. In response to this comment, we re-examined the original main-trial pressure and temperature records and quantified the realised in-bag temperatures directly. During the late storage window (days 19.5-20), the nominal 50 degC chamber averaged 34.18 +/- 0.36 degC in top-position sensors and 26.08 +/- 0.23 degC in bottom-position sensors. The nominal 19 degC chamber averaged 23.50 +/- 0.21 degC in top-position sensors and 22.84 +/- 0.30 degC in bottom-position sensors. The study is therefore interpreted as a comparison between nominal chamber conditions and measured package temperatures, not as a direct 19 degC versus 50 degC wine-temperature comparison.
+We agree. The revised manuscript no longer treats the main trial as actual 50 degC wine exposure. In response to this comment, we re-examined the original main-trial pressure and temperature records and quantified the realised in-bag temperatures directly. The manuscript now defines the set-point labels C19 and C50. During the late storage window (days 19.5-20), C50 averaged 34.18 +/- 0.36 degC in top-position sensors and 26.08 +/- 0.23 degC in bottom-position sensors. C19 averaged 23.50 +/- 0.21 degC in top-position sensors and 22.84 +/- 0.30 degC in bottom-position sensors. The study is therefore interpreted as a comparison between set-point groups and measured package temperatures, not as a direct 19 degC versus 50 degC wine-temperature comparison.
 
 ### Changes in Manuscript
 
-The Title, Abstract, Sections 2, 3.1, 3.2, 3.4, Conclusions, captions and Table 2 now distinguish nominal chamber set point from measured in-bag temperature. The highlighted manuscript marks these changes.
+The Title, Abstract, Sections 2, 3.1, 3.2, 3.4, Conclusions, captions and Table 2 now distinguish chamber set-point labels from measured in-bag temperature. The highlighted manuscript marks the substantive reviewer-driven changes.
 
 ## R2.2 Abstract
 
@@ -26,11 +26,11 @@ The Abstract should be condensed, restructured and explicit about the actual tem
 
 ### Response
 
-The Abstract has been revised to reflect the re-analysis of the original experimental records. It now reports the late-temperature summaries, the uncorrected exploratory pressure result, the common-mode pressure sensitivity, the approved Table 2 chemistry presentation, and the limited role of the verification trial.
+The Abstract has been compressed and revised to lead with the main findings. It defines C19 and C50 as chamber set-point labels, reports the realised in-bag temperatures, retains the exploratory pressure interpretation and summarises the approved Table 2 chemistry presentation.
 
 ### Changes in Manuscript
 
-The Abstract was replaced with a shorter evidence-aligned version. It no longer states or implies that the main trial exposed wine to 50 degC and no longer describes all pressure peaks as occurring on a single day.
+The Abstract was replaced with a shorter finding-first version. It no longer states or implies that the main trial exposed wine to 50 degC and no longer describes all pressure peaks as occurring on a single day.
 
 ## R2.3 Chamber characteristics
 
@@ -96,7 +96,7 @@ The lactic-acid increase cannot be confidently attributed to heat-driven chemist
 
 ### Response
 
-We agree. We re-examined the available original experimental records and confirmed that raw replicate-level chemical measurements were not retained in the available study records. The originally submitted Table 2 reports `0.29 +/- 0.02 g/L`, whereas no primary experimental record supports the alternative `0.29 +/- 0.20 g/L`. The manuscript therefore reports `0.29 +/- 0.02 g/L` as the traceable descriptive Table 2 value, without a significance claim. Lactic acid remains reported descriptively without significance letters. Malic acid did not decrease significantly, but we no longer state that malolactic fermentation was ruled out. Residual microbial activity cannot be excluded.
+We agree. We re-examined the available original experimental records and found that raw replicate-level chemical measurements were not retained in the available study records. The originally submitted Table 2 reports `0.29 +/- 0.02 g/L`, whereas no primary experimental record supports the alternative `0.29 +/- 0.20 g/L`. The manuscript therefore reports `0.29 +/- 0.02 g/L` as the traceable descriptive Table 2 value, without a significance claim. Lactic acid remains reported descriptively without significance letters. Malic acid did not decrease significantly, but we no longer state that malolactic fermentation was ruled out. Residual microbial activity cannot be excluded.
 
 ### Changes in Manuscript
 
@@ -110,7 +110,7 @@ Sections 2.1, 2.4 and 3.1, Table 2 and Limitations were revised to retain the ap
 
 ### Response
 
-Corrected. Table 2 now labels the rows as wine from the nominal 19 degC chamber and wine from the nominal 50 degC chamber. The caption states that these labels are chamber set points, not actual in-bag wine temperatures. The approved Table 2 chemistry markers are retained, while lactic acid remains descriptive without significance letters.
+Corrected. Table 2 now uses C19 and C50 set-point labels. The caption states that these labels are chamber set points, not actual in-bag wine temperatures. The approved Table 2 chemistry markers are retained, while lactic acid remains descriptive without significance letters.
 
 ### Changes in Manuscript
 

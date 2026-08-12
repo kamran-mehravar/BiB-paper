@@ -6,6 +6,8 @@
 
 The current branch has been corrected for the pressure/common-mode issue and related scope limitations. The chemistry/Table 2 presentation has also been restored according to the author-approved analysis, while retaining cautious wording for lactic acid, microbiology and non-position-resolved chemistry. The package is scientifically safer for resubmission, subject to final manual Word review.
 
+A final clarity-compression pass then defined C19/C50 as set-point labels, shortened repeated caveats and captions, and reduced highlight density without changing the scientific results.
+
 ## Barometric/Common-Mode Pressure Audit
 
 Trial dates:
@@ -133,7 +135,7 @@ Checked:
 
 - No "Wine at 50 degC" sample label remains in Table 2.
 - No main-trial statement describes actual wine exposure at 50 degC.
-- No "new data" provenance framing remains in reviewer-facing or submission-facing files.
+- No wording implying post-review data generation remains in reviewer-facing or submission-facing files.
 
 ## Files Changed
 
