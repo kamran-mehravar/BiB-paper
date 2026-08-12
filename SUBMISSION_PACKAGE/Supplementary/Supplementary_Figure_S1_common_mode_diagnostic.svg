@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="720" viewBox="0 0 1200 720" role="img" aria-label="Supplementary Figure S1 common-mode pressure diagnostic">
+  <rect width="1200" height="720" fill="white"/>
+  <style>
+    text{font-family:Arial,Helvetica,sans-serif;fill:#222}.title{font-size:23px;font-weight:bold}.subtitle{font-size:15px;fill:#555}.panel{font-size:18px;font-weight:bold}.axis{stroke:#333;stroke-width:1.2}.grid{stroke:#ddd;stroke-width:1}.thresh{stroke:#777;stroke-width:1.5;stroke-dasharray:5 4}.note{font-size:15px;fill:#555}.small{font-size:13px}.big{font-size:18px;font-weight:bold}
+  </style>
+  <text x="45" y="38" class="title">Supplementary Figure S1. Common-mode diagnostic for main-trial pressure analysis</text>
+  <text x="45" y="63" class="subtitle">C19 and C50 are chamber set-point labels. The diagnostic uses the original main-trial sensor records; no external barometric record was available.</text>
+
+  <text x="60" y="112" class="panel">(A) Common-mode structure across sensor traces</text>
+  <rect x="60" y="135" width="1040" height="115" fill="#fafafa" stroke="#d0d0d0"/>
+  <text x="85" y="165" class="note">Leave-one-out correlation between each sensor trace and the common-mode trace:</text>
+  <text x="85" y="205" class="big">mean r = 0.937</text>
+  <text x="260" y="205" class="note">range 0.859–0.973 across 11 usable sensor traces</text>
+  <line x1="500" y1="205" x2="940" y2="205" class="axis"/>
+  <line x1="500" y1="195" x2="500" y2="215" class="axis"/><text x="500" y="238" text-anchor="middle" class="small">0.85</text>
+  <line x1="638" y1="198" x2="638" y2="212" class="grid"/><text x="638" y="238" text-anchor="middle" class="small">0.90</text>
+  <line x1="775" y1="198" x2="775" y2="212" class="grid"/><text x="775" y="238" text-anchor="middle" class="small">0.95</text>
+  <line x1="940" y1="195" x2="940" y2="215" class="axis"/><text x="940" y="238" text-anchor="middle" class="small">1.00</text>
+  <circle cx="525" cy="205" r="7" fill="#D9902F"/><text x="515" y="185" class="small">min</text>
+  <circle cx="739" cy="205" r="8" fill="#C7352D"/><text x="718" y="185" class="small">mean</text>
+  <circle cx="864" cy="205" r="7" fill="#2F6FB0"/><text x="850" y="185" class="small">max</text>
+
+  <text x="60" y="305" class="panel">(B) Position term before and after common-mode residualisation</text>
+  <rect x="60" y="328" width="1040" height="145" fill="#fafafa" stroke="#d0d0d0"/>
+  <line x1="260" y1="430" x2="980" y2="430" class="axis"/>
+  <line x1="260" y1="338" x2="260" y2="430" class="axis"/>
+  <line x1="500" y1="338" x2="500" y2="430" class="thresh"/><text x="508" y="354" class="small">p = 0.05</text>
+  <text x="195" y="372" text-anchor="end" class="note">Uncorrected peak ΔP</text>
+  <line x1="260" y1="365" x2="342" y2="365" stroke="#2F6FB0" stroke-width="13" stroke-linecap="round"/><circle cx="342" cy="365" r="7" fill="#2F6FB0"/>
+  <text x="360" y="370" class="note">p = 0.017; F(1,8) = 9.14</text>
+  <text x="195" y="414" text-anchor="end" class="note">Common-mode residual peak</text>
+  <line x1="260" y1="407" x2="793" y2="407" stroke="#D9902F" stroke-width="13" stroke-linecap="round"/><circle cx="793" cy="407" r="7" fill="#D9902F"/>
+  <text x="810" y="412" class="note">p = 0.111; F(1,8) = 3.21</text>
+  <text x="600" y="458" text-anchor="middle" class="small">ANOVA p-value for the position term</text>
+
+  <text x="60" y="530" class="panel">(C) Leave-one-out robustness of the uncorrected peak-position result</text>
+  <rect x="60" y="553" width="1040" height="95" fill="#fafafa" stroke="#d0d0d0"/>
+  <text x="85" y="587" class="note">Removing one sensor at a time gave position-effect p-values from 0.0007 to 0.0511.</text>
+  <line x1="310" y1="620" x2="930" y2="620" class="axis"/>
+  <line x1="826" y1="595" x2="826" y2="636" class="thresh"/><text x="834" y="608" class="small">p = 0.05</text>
+  <circle cx="318" cy="620" r="7" fill="#2F6FB0"/><text x="295" y="644" class="small">0.0007</text>
+  <circle cx="822" cy="620" r="7" fill="#D9902F"/><text x="800" y="644" class="small">0.0511</text>
+  <text x="85" y="675" class="note">Interpretation: the uncorrected peak-position result is reproducible but sensitive to common-mode structure and is therefore reported as exploratory.</text>
+</svg>
