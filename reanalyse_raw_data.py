@@ -562,7 +562,7 @@ def regenerate_figures(main_df: pd.DataFrame, pressure_summary: pd.DataFrame, ve
     plt.close(fig)
     copy_final_figure("Figure6_temperature_attained_FINAL.png")
 
-    fig, axes = plt.subplots(2, 1, figsize=(13.2, 9.4), sharex=True)
+    fig, axes = plt.subplots(2, 1, figsize=(13.2, 9.6), sharex=True)
     for sid, position, t_col, p_col in VERIFICATION_SENSORS:
         subset = verification_df[["Time(days)", t_col, p_col]].dropna()
         subset = subset[subset["Time(days)"] <= 15.0]
@@ -581,20 +581,23 @@ def regenerate_figures(main_df: pd.DataFrame, pressure_summary: pd.DataFrame, ve
         style_axis(ax)
         ax.set_xlim(-0.3, 15.3)
         set_day_ticks(ax, [0, 3, 6, 9, 12, 15])
-    axes[0].annotate("V26 stops\nafter ~4 days 8 h", xy=(4.35, 5.0), xytext=(5.2, 20.0),
-                     arrowprops=dict(arrowstyle="->", color="#777777", linewidth=1.0),
-                     color="#555555", fontsize=9, ha="left",
-                     bbox=dict(facecolor="white", edgecolor="#bbbbbb", boxstyle="round,pad=0.25", alpha=0.88))
-    axes[0].annotate("common dip\naround day 6", xy=(6.2, -25.0), xytext=(7.8, -11.0),
-                     arrowprops=dict(arrowstyle="->", color="#777777", linewidth=1.0),
-                     color="#555555", fontsize=9, ha="left",
-                     bbox=dict(facecolor="white", edgecolor="#bbbbbb", boxstyle="round,pad=0.25", alpha=0.88))
+    axes[0].set_ylim(-35, 35)
+    annotation_box = dict(facecolor="white", edgecolor="#bbbbbb", boxstyle="round,pad=0.25", alpha=0.94)
+    arrow = dict(arrowstyle="->", color="#777777", linewidth=1.0)
+    axes[0].annotate("V26 stops\nafter ~4 days 8 h", xy=(4.35, 5.0), xycoords="data",
+                     xytext=(0.78, 0.89), textcoords="axes fraction",
+                     arrowprops=arrow, color="#555555", fontsize=9, ha="left", va="center",
+                     bbox=annotation_box, annotation_clip=False)
+    axes[0].annotate("common dip\naround day 6", xy=(6.2, -25.0), xycoords="data",
+                     xytext=(0.78, 0.13), textcoords="axes fraction",
+                     arrowprops=arrow, color="#555555", fontsize=9, ha="left", va="center",
+                     bbox=annotation_box, annotation_clip=False)
     axes[1].text(15.0, 50.5, "50 °C set point", color="#c7352d", fontsize=9, ha="right", va="bottom")
     axes[1].text(0.56, 0.50, "No in-bag sensor\nreached 50 °C",
                  transform=axes[1].transAxes, color="#555555", fontsize=9, ha="center", va="center",
                  bbox=dict(facecolor="white", edgecolor="none", alpha=0.88, pad=1.8))
-    axes[0].legend(frameon=False, loc="upper right", ncol=4)
-    fig.tight_layout()
+    axes[0].legend(frameon=False, loc="upper center", bbox_to_anchor=(0.5, 1.18), ncol=4)
+    fig.tight_layout(rect=(0, 0, 1, 0.95))
     fig.savefig("Figure7_verification_trial_FINAL.png", dpi=300)
     plt.close(fig)
     copy_final_figure("Figure7_verification_trial_FINAL.png")
