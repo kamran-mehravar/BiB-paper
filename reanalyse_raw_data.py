@@ -399,6 +399,60 @@ def copy_final_figure(filename: str) -> None:
         shutil.copy2(filename, package_dir / filename)
 
 
+def paired_verification_trace(
+    df: pd.DataFrame,
+    t_col: str,
+    p_col: str,
+    *,
+    max_day: float = 15.0,
+) -> pd.DataFrame:
+    cols = ["Time(days)", t_col, p_col]
+    subset = df[cols].copy()
+    mask = (
+        subset["Time(days)"].notna()
+        & subset[t_col].notna()
+        & subset[p_col].notna()
+        & (subset["Time(days)"] <= max_day)
+    )
+    # V26 has one pressure-only row immediately after temperature dropout; keep
+    # verification plots limited to complete sensor readings instead of plotting
+    # that artifact.
+    return subset.loc[mask, cols]
+
+
+def verification_delta_pressure_trace(df: pd.DataFrame, t_col: str, p_col: str) -> pd.DataFrame:
+    subset = paired_verification_trace(df, t_col, p_col)
+    trace = subset[["Time(days)", p_col]].copy()
+    trace["delta_p_mbar"] = trace[p_col] - float(trace[p_col].iloc[0])
+    return trace
+
+
+def verification_temperature_trace(df: pd.DataFrame, t_col: str, p_col: str) -> pd.DataFrame:
+    return paired_verification_trace(df, t_col, p_col)[["Time(days)", t_col]].copy()
+
+
+def days_hours_label(day_value: float) -> str:
+    days = int(math.floor(day_value))
+    hours = int(round((day_value - days) * 24.0))
+    if hours == 24:
+        days += 1
+        hours = 0
+    return f"{days} days {hours} h"
+
+
+def common_dip_point(pressure_traces: dict[str, pd.DataFrame]) -> tuple[float, float]:
+    complete_traces = [
+        trace[["Time(days)", "delta_p_mbar"]]
+        for trace in pressure_traces.values()
+        if float(trace["Time(days)"].max()) >= 15.0
+    ]
+    common = pd.concat(complete_traces, ignore_index=True)
+    mean_by_day = common.groupby("Time(days)")["delta_p_mbar"].mean()
+    dip_day = float(mean_by_day.idxmin())
+    dip_value = float(common.loc[np.isclose(common["Time(days)"], dip_day), "delta_p_mbar"].mean())
+    return dip_day, dip_value
+
+
 def regenerate_figures(main_df: pd.DataFrame, pressure_summary: pd.DataFrame, verification_df: pd.DataFrame):
     series = main_series(main_df)
     amber = "#d28a00"
@@ -540,8 +594,7 @@ def regenerate_figures(main_df: pd.DataFrame, pressure_summary: pd.DataFrame, ve
     style_axis(ax)
     ax = axes[1]
     for sid, position, t_col, _p_col in VERIFICATION_SENSORS:
-        subset = verification_df[["Time(days)", t_col]].dropna()
-        subset = subset[subset["Time(days)"] <= 15.0]
+        subset = verification_temperature_trace(verification_df, t_col, _p_col)
         color = {"V26": green, "V62": purple, "V27": red, "V64": amber}[sid]
         ax.plot(subset["Time(days)"], subset[t_col], color=color, linewidth=2.0, label=f"{sid} {position.lower()}")
     ax.axhline(50, color="#c7352d", linestyle="--", linewidth=1.5)
@@ -563,13 +616,26 @@ def regenerate_figures(main_df: pd.DataFrame, pressure_summary: pd.DataFrame, ve
     copy_final_figure("Figure6_temperature_attained_FINAL.png")
 
     fig, axes = plt.subplots(2, 1, figsize=(13.2, 9.6), sharex=True)
+    pressure_traces: dict[str, pd.DataFrame] = {}
     for sid, position, t_col, p_col in VERIFICATION_SENSORS:
-        subset = verification_df[["Time(days)", t_col, p_col]].dropna()
-        subset = subset[subset["Time(days)"] <= 15.0]
-        p0 = subset[p_col].iloc[0]
+        pressure_trace = verification_delta_pressure_trace(verification_df, t_col, p_col)
+        temperature_trace = verification_temperature_trace(verification_df, t_col, p_col)
+        pressure_traces[sid] = pressure_trace
         color = {"V26": green, "V62": purple, "V27": red, "V64": amber}[sid]
-        axes[0].plot(subset["Time(days)"], subset[p_col] - p0, color=color, linewidth=2.0, label=f"{sid} {position.lower()}")
-        axes[1].plot(subset["Time(days)"], subset[t_col], color=color, linewidth=2.0, label=f"{sid} {position.lower()}")
+        axes[0].plot(
+            pressure_trace["Time(days)"],
+            pressure_trace["delta_p_mbar"],
+            color=color,
+            linewidth=2.0,
+            label=f"{sid} {position.lower()}",
+        )
+        axes[1].plot(
+            temperature_trace["Time(days)"],
+            temperature_trace[t_col],
+            color=color,
+            linewidth=2.0,
+            label=f"{sid} {position.lower()}",
+        )
     axes[0].axhline(0, color="#888888", linewidth=1.0)
     axes[1].axhline(50, color="#c7352d", linestyle="--", linewidth=1.5)
     axes[0].set_ylabel("ΔP from own baseline (mbar)")
@@ -584,12 +650,17 @@ def regenerate_figures(main_df: pd.DataFrame, pressure_summary: pd.DataFrame, ve
     axes[0].set_ylim(-35, 35)
     annotation_box = dict(facecolor="white", edgecolor="#bbbbbb", boxstyle="round,pad=0.25", alpha=0.94)
     arrow = dict(arrowstyle="->", color="#777777", linewidth=1.0)
-    axes[0].annotate("V26 stops\nafter ~4 days 8 h", xy=(4.35, 5.0), xycoords="data",
-                     xytext=(0.78, 0.89), textcoords="axes fraction",
+    v26_stop_day = float(pressure_traces["V26"]["Time(days)"].iloc[-1])
+    v26_stop_pressure = float(pressure_traces["V26"]["delta_p_mbar"].iloc[-1])
+    common_dip_day, common_dip_pressure = common_dip_point(pressure_traces)
+    y_min, y_max = axes[0].get_ylim()
+    axes[0].annotate(f"V26 stops\nafter ~{days_hours_label(v26_stop_day)}",
+                     xy=(v26_stop_day, v26_stop_pressure), xycoords="data",
+                     xytext=(v26_stop_day + 0.85, y_max - 5.0), textcoords="data",
                      arrowprops=arrow, color="#555555", fontsize=9, ha="left", va="center",
                      bbox=annotation_box, annotation_clip=False)
-    axes[0].annotate("common dip\naround day 6", xy=(6.2, -25.0), xycoords="data",
-                     xytext=(0.78, 0.13), textcoords="axes fraction",
+    axes[0].annotate("common dip\naround day 6", xy=(common_dip_day, common_dip_pressure), xycoords="data",
+                     xytext=(common_dip_day + 1.35, y_min + 7.0), textcoords="data",
                      arrowprops=arrow, color="#555555", fontsize=9, ha="left", va="center",
                      bbox=annotation_box, annotation_clip=False)
     axes[1].text(15.0, 50.5, "50 °C set point", color="#c7352d", fontsize=9, ha="right", va="bottom")
@@ -620,7 +691,7 @@ def main() -> None:
     verification.to_csv("verification_summary_raw.csv", index=False)
     regenerate_figures(main_df, pressure, verification_df)
     print("Wrote derived CSV summaries and regenerated Figures 3-7 FINAL PNGs.")
-    print("Figures 3 and 4 pressure panels now use baseline-referred ΔP.")
+    print("Figures 3 and 4 pressure panels now use baseline-referred delta P.")
     print("Copied final figures into SUBMISSION_PACKAGE/Figures where that directory exists.")
     print("Main pressure rows:", len(pressure))
     print("Verification sensor rows:", len(verification))
